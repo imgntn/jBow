@@ -43,9 +43,17 @@ AFRAME.registerComponent('grab', {
     el.removeEventListener('triggerdown',this.onTriggerDown);
     el.removeEventListener('triggerup',this.onTriggerUp);
   },
+  
   onTriggerUp:function(evt){
+    var _t=this;
         console.log('trigger up event',evt);
         console.log('this',this.getAttribute('hand-controls'))
+
+     var vector = new THREE.Vector3(); // create once and reuse it!
+
+    _t.el.object3D.getWorldDirection( vector );
+
+    console.log('vector at trigger up',vector)
   },
 
   onTriggerDown:function(evt){
@@ -62,6 +70,7 @@ AFRAME.registerComponent('grab', {
     this.grabbing = false;
     if (!hitEl) { return; }
     hitEl.removeState(this.GRABBED_STATE);
+
 
     if(this.objectWasDynamic===true){
       hitEl.setAttribute('dynamic-body','')

@@ -15,7 +15,7 @@ cylinderAxis    shape:cylinder  —   Override default axis of bounding cylinder
     <meta name="description" content="jBow">
     <script src="aframe-master-working-hands.js"></script>
     <script src="components/aabb-collider.js"></script>
-    <script src="components/grab.js"></script>
+    <script src="components/equip.js"></script>
     <script src="components/bow-and-arrow.js"></script>
     <script src="shaders/skyGradient.js"></script>
     <script src="aframe-physics-system.js"></script>
@@ -25,10 +25,6 @@ cylinderAxis    shape:cylinder  —   Override default axis of bounding cylinder
 <a-scene debug vr-mode-ui keyboard-shortcuts physics="debug: true;">
 
 <a-assets>
-<a-mixin id="cube" geometry="primitive: box; height: 0.30; width: 0.30; depth: 0.30"
-material="color: #EF2D5E;"></a-mixin>
-<a-mixin id="cube-collided" material="color: #F2E646;"></a-mixin>
-<a-mixin id="cube-grabbed" material="color: #F2E646;"></a-mixin>
 
 <!-- bow and arrow models   <script src="aframe-v0.4.0.js"></script> -->
 <a-asset-item id="bow-obj" src="assets/models/sg-bow-2-obj/sg-bow-2.obj"></a-asset-item>
@@ -52,30 +48,7 @@ material="color: #EF2D5E;"></a-mixin>
 
 <!-- bow and arrow -->
 
-<a-entity bow-and-arrow position="0 1 0"></a-entity bow-and-arrow>
-
-    <a-entity position="0 0 -0.5" >
-        <a-entity class="cube" dynamic-body   mixin="cube" position="0.30 1.65 0"></a-entity>
-        <a-entity class="cube" dynamic-body  mass="1" mixin="cube" position="0 1.95 0"></a-entity>
-        <a-entity class="cube" dynamic-body mass="20"  mixin="cube" position="-0.30 1.65 0"></a-entity>
-<!-- 
-        <a-entity class="cube" mixin="cube" position="0.60 1.35 0"></a-entity>
-        <a-entity class="cube" mixin="cube" position="0.60 1.05 0"></a-entity>
-        <a-entity class="cube" mixin="cube" position="0.60 0.75 0"></a-entity>
-        <a-entity class="cube" mixin="cube" position="0.60 0.45 0"></a-entity>
-        <a-entity class="cube" mixin="cube" position="0.60 0.15 0"></a-entity>
-
-        <a-entity class="cube" mixin="cube" position="0.30 0.75 0"></a-entity>
-        <a-entity class="cube" mixin="cube" position="0 0.75 0"></a-entity>
-        <a-entity class="cube" mixin="cube" position="-0.30 0.75 0"></a-entity>
-
-        <a-entity class="cube" mixin="cube" position="-0.60 1.35 0"></a-entity>
-        <a-entity class="cube" mixin="cube" position="-0.60 1.05 0"></a-entity>
-        <a-entity class="cube" mixin="cube" position="-0.60 0.75 0"></a-entity>
-        <a-entity class="cube" mixin="cube" position="-0.60 0.45 0"></a-entity>
-        <a-entity class="cube" mixin="cube" position="-0.60 0.15 0"></a-entity> -->
-
-    </a-entity>
+<a-entity bow-and-arrow position="-0.5 1 -0.5"></a-entity bow-and-arrow>
 
         <!-- Hands -->
  
