@@ -11,19 +11,18 @@ cylinderAxis    shape:cylinder  —   Override default axis of bounding cylinder
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hello, World! • A-Frame</title>
-    <meta name="description" content="Hello, World! • A-Frame">
-
+    <title>jBow</title>
+    <meta name="description" content="jBow">
     <script src="aframe-master-working-hands.js"></script>
-    <script src="aframe-physics-system.min.js"></script>
     <script src="components/aabb-collider.js"></script>
     <script src="components/grab.js"></script>
     <script src="components/bow-and-arrow.js"></script>
     <script src="shaders/skyGradient.js"></script>
+    <script src="aframe-physics-system.js"></script>
   </head>
   <body>
 
-<a-scene debug vr-mode-ui keyboard-shortcuts physics="debug: true">
+<a-scene debug vr-mode-ui keyboard-shortcuts physics="debug: true;">
 
 <a-assets>
 <a-mixin id="cube" geometry="primitive: box; height: 0.30; width: 0.30; depth: 0.30"
@@ -43,45 +42,23 @@ material="color: #EF2D5E;"></a-mixin>
 
   <!-- Camera -->
   <a-entity camera look-controls></a-entity>
-
-    <!-- Hands -->
- 
-      <a-entity hand-controls="left" aabb-collider="objects: .cube, #bow;" grab></a-entity>
-      <a-entity hand-controls="right" aabb-collider="objects: .cube, #bow;" grab></a-entity>
-<!--       
-<a-entity vive-controls="hand: left"></a-entity>
-<a-entity vive-controls="hand: right"></a-entity>
- -->
-
+  <!-- Floor -->
+  <a-entity position=" 0 0 0" geometry="primitive: box; height: 2; width: 10; depth: 10" static-body="shape:box"></a-entity>
  <!-- Environment -->
         <a-entity id="sky"  geometry="primitive: sphere; radius: 65;" material="shader: skyGradient; colorTop: #353449; colorBottom: #BC483E; side: back"></a-entity>
-         <a-entity ground></a-entity>
          <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="8 10 18"></a-entity>
          <a-entity light="type: point; color: #f4f4f4; intensity: 0.6; distance: 0" position="-8 10 -18"></a-entity>
          <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.4;" position="-8 10 -18"></a-entity>
 
-
-
-
-  <!-- Floor -->
-  <a-plane static-body></a-plane>
-
-  <!-- Immovable box -->
-  <a-box static-body position="0 0.5 -5" width="3" height="1" depth="1"></a-box>
-
-  <!-- Dynamic box -->
-  <a-box dynamic-body position="5 0.5 0" width="1" height="1" depth="1"></a-box>
-
-
 <!-- bow and arrow -->
 
-<a-entity bow-and-arrow></a-entity bow-and-arrow>
+<a-entity bow-and-arrow position="0 1 0"></a-entity bow-and-arrow>
 
-    <a-entity position="0 0 -0.5">
-        <a-entity class="cube" mixin="cube" position="0.30 1.65 0"></a-entity>
-        <a-entity class="cube" mixin="cube" position="0 1.95 0"></a-entity>
-        <a-entity class="cube" mixin="cube" position="-0.30 1.65 0"></a-entity>
-
+    <a-entity position="0 0 -0.5" >
+        <a-entity class="cube" dynamic-body   mixin="cube" position="0.30 1.65 0"></a-entity>
+        <a-entity class="cube" dynamic-body  mass="1" mixin="cube" position="0 1.95 0"></a-entity>
+        <a-entity class="cube" dynamic-body mass="20"  mixin="cube" position="-0.30 1.65 0"></a-entity>
+<!-- 
         <a-entity class="cube" mixin="cube" position="0.60 1.35 0"></a-entity>
         <a-entity class="cube" mixin="cube" position="0.60 1.05 0"></a-entity>
         <a-entity class="cube" mixin="cube" position="0.60 0.75 0"></a-entity>
@@ -96,9 +73,14 @@ material="color: #EF2D5E;"></a-mixin>
         <a-entity class="cube" mixin="cube" position="-0.60 1.05 0"></a-entity>
         <a-entity class="cube" mixin="cube" position="-0.60 0.75 0"></a-entity>
         <a-entity class="cube" mixin="cube" position="-0.60 0.45 0"></a-entity>
-        <a-entity class="cube" mixin="cube" position="-0.60 0.15 0"></a-entity>
+        <a-entity class="cube" mixin="cube" position="-0.60 0.15 0"></a-entity> -->
 
     </a-entity>
+
+        <!-- Hands -->
+ 
+      <a-entity hand-controls="left" aabb-collider="objects: .cube, #bow;" grab></a-entity>
+      <a-entity hand-controls="right" aabb-collider="objects: .cube, #bow;" grab></a-entity>
 </a-scene>
   </body>
 </html>

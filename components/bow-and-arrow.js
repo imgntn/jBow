@@ -8,30 +8,12 @@ AFRAME.registerComponent('bow-and-arrow', {
     console.log('init bow')
     this.arrow=null;
 
-
-    // //load the bow model
-    // var objectLoader;
-    // var object3D = this.el.object3D;
-    // var MODEL_URL = 'https://cdn.aframe.io/link-traversal/models/ground.json';
-    // if (this.objectLoader) { return; }
-    // objectLoader = this.objectLoader = new THREE.ObjectLoader();
-    // objectLoader.crossOrigin = '';
-    // objectLoader.load(MODEL_URL, function (obj) {
-    //   obj.children.forEach(function (value) {
-    //     value.receiveShadow = true;
-    //     value.material.shading = THREE.FlatShading;
-    //   });
-    //   object3D.add(obj);
-    // });
-
-
-
     var entity = document.createElement('a-obj-model');
+    entity.id="bow";
     entity.setAttribute('obj-model','obj: #bow-obj; mtl: #bow-mtl')
     entity.setAttribute('scale','0.1 0.1 0.1');
     entity.setAttribute('rotation','90 0 0');
     this.el.appendChild(entity);
-
   },
 
   play: function () {
@@ -52,7 +34,7 @@ AFRAME.registerComponent('bow-and-arrow', {
         /* impulse */
         new CANNON.Vec3(0, 1, -1),
         /* world position */
-        new CANNON.Vec3().copy(arrow.getComputedAttribute('position'))
+        new CANNON.Vec3().copy(arrow.getAttribute('position'))
     );
 
   },
@@ -74,10 +56,8 @@ AFRAME.registerComponent('bow-and-arrow', {
 
     // Have the spawned entity face the same direction as the entity.
     // Allow the entity to further modify the inherited rotation.
-    position.setFromMatrixPosition(matrixWorld);
-    entity.setAttribute('position', position);
     entity.addEventListener('loaded', function () {
-      entityRotation = entity.getComputedAttribute('rotation');
+      entityRotation = entity.getAttribute('rotation');
       entity.setAttribute('rotation', {
         x: entityRotation.x + rotation.x,
         y: entityRotation.y + rotation.y,

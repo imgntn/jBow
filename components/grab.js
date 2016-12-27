@@ -13,6 +13,8 @@ AFRAME.registerComponent('grab', {
     this.onGripOpen = this.onGripOpen.bind(this);
     this.onGripClose = this.onGripClose.bind(this);
     // this.onTriggerDown = this.onTriggerDown.bind(this);
+
+    this.objectWasDynamic=false;
   },
 
   play: function () {
@@ -60,14 +62,14 @@ AFRAME.registerComponent('grab', {
     this.grabbing = false;
     if (!hitEl) { return; }
     hitEl.removeState(this.GRABBED_STATE);
-   
-    var myPosition = this.el.getAttribute('position');
-    var myRotation = this.el.getAttribute('rotation');
-    var scene = document.querySelector('a-scene')
-    this.hitEl.setAttribute('position',myPosition)
-    this.hitEl.setAttribute('rotation',myRotation)
-    scene.appendChild(this.hitEl);
+
+    if(this.objectWasDynamic===true){
+      hitEl.setAttribute('dynamic-body','')
+    }
+    this.objectWasDynamic=null;
     this.hitEl = undefined;
+    hitEl.removeAttribute('static-body')
+
   },
 
   onHit: function (evt) {
@@ -78,33 +80,28 @@ AFRAME.registerComponent('grab', {
     if (!hitEl || hitEl.is(this.GRABBED_STATE) || !this.grabbing || this.hitEl) { return; }
     hitEl.addState(this.GRABBED_STATE);
     this.hitEl = hitEl;
-  
-    this.el.appendChild(this.hitEl)
-    this.hitEl.setAttribute('position','0 0 0 ')
+    this.objectWasDynamic=true;
+    hitEl.removeAttribute('dynamic-body')
+    hitEl.setAttribute('static-body','')
   },
 
   tick: function () {
     var hitEl = this.hitEl;
     var position;
     if (!hitEl) { return; }
-    // this.updateDelta(hitEl);
-    // position = hitEl.getAttribute('position');
-    // hitEl.setAttribute('position', {
-    //   x: position.x + this.deltaPosition.x,
-    //   y: position.y + this.deltaPosition.y,
-    //   z: position.z + this.deltaPosition.z
-    // });
-    // rotation = hitEl.getAttribute('rotation');
-    // hitEl.setAttribute('rotation', {
-    //   x: rotation.x - this.deltaRotation.x,
-    //   y: rotation.y - this.deltaRotation.y,
-    //   z: rotation.z - this.deltaRotation.z
-    // });
-
-
+    this.updatePositionDelta(hitEl);
+    position = hitEl.getAttribute('position');
+    hitEl.setAttribute('position', {
+      x: position.x + this.deltaPosition.x,
+      y: position.y + this.deltaPosition.y,
+      z: position.z + this.deltaPosition.z
+    });
+    rotation = hitEl.getAttribute('rotation');
+    var newRotation=null;
+    //hitEl.setAttribute('rotation', newRotation);
   },
 
-  updateDelta: function (hitEl) {
+  updatePositionDelta: function (hitEl) {
     var currentPosition = this.el.getAttribute('position');
     var previousPosition = this.previousPosition || currentPosition;
     var deltaPosition = {
@@ -114,23 +111,6 @@ AFRAME.registerComponent('grab', {
     };
     this.previousPosition = currentPosition;
     this.deltaPosition = deltaPosition;
-
-    var currentRotation = this.el.getAttribute('rotation');
-    var objRotation =hitEl.getAttribute('rotation');
-    var quat = new THREE.Quaternion();
-    var euler = new THREE.Euler(currentRotation.x,currentRotation.y,currentRotation.z);
-    quat.setFromEuler(euler);
-    console.log('current quat is:',quat)
-    var previousRotation = this.previousRotation || currentRotation;
-    var deltaRotation = {
-      x:  objRotation.x- currentRotation.x - previousRotation.x,
-      y:  objRotation.y-currentRotation.y - previousRotation.y,
-      z:  objRotation.z-currentRotation.z - previousRotation.z
-    };
-    this.previousRotation = currentRotation;
-    this.deltaRotation= deltaRotation;
-
-
 
   }
 });
