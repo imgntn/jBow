@@ -15,19 +15,21 @@ cylinderAxis    shape:cylinder  —   Override default axis of bounding cylinder
     <meta name="description" content="jBow">
     <script src="aframe-master-working-hands.js"></script>
     <script src="components/aabb-collider.js"></script>
-    <script src="components/equip.js"></script>
+    <script src="components/grab.js"></script>
     <script src="components/bow-and-arrow.js"></script>
     <script src="shaders/skyGradient.js"></script>
     <script src="aframe-physics-system.js"></script>
   </head>
   <body>
 
-<a-scene debug vr-mode-ui keyboard-shortcuts physics="debug: true;">
+<!-- <a-scene debug vr-mode-ui keyboard-shortcuts physics="debug: true;">
+ -->
+<a-scene vr-mode-ui keyboard-shortcuts physics if-no-vr-headset>
 
 <a-assets>
 
 <!-- bow and arrow models   <script src="aframe-v0.4.0.js"></script> -->
-<a-asset-item id="bow-obj" src="assets/models/sg-bow-2-obj/sg-bow-2.obj"></a-asset-item>
+<a-asset-item id="bow-obj" src="assets/models/sg-bow-2-obj/sg-bow-2-rotated.obj"></a-asset-item>
 <a-asset-item id="bow-mtl" src="assets/models/sg-bow-2-obj/sg-bow-2.mtl"></a-asset-item>
 <a-asset-item id="arrow-obj" src="assets/models/low-poly-arrow-obj/low-poly-arrow.obj"></a-asset-item>
 <a-asset-item id="arrow-mtl" src="assets/models/low-poly-arrow-obj/low-poly-arrow.mtl"></a-asset-item>
@@ -39,7 +41,7 @@ cylinderAxis    shape:cylinder  —   Override default axis of bounding cylinder
   <!-- Camera -->
   <a-entity camera look-controls></a-entity>
   <!-- Floor -->
-  <a-entity position=" 0 0 0" geometry="primitive: box; height: 2; width: 10; depth: 10" static-body="shape:box"></a-entity>
+  <a-entity position=" 0 -1 0" geometry="primitive: box; height: 1; width: 10; depth: 10" static-body="shape:box"></a-entity>
  <!-- Environment -->
         <a-entity id="sky"  geometry="primitive: sphere; radius: 65;" material="shader: skyGradient; colorTop: #353449; colorBottom: #BC483E; side: back"></a-entity>
          <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="8 10 18"></a-entity>
@@ -52,8 +54,8 @@ cylinderAxis    shape:cylinder  —   Override default axis of bounding cylinder
 
         <!-- Hands -->
  
-      <a-entity hand-controls="left" aabb-collider="objects: .cube, #bow;" grab></a-entity>
-      <a-entity hand-controls="right" aabb-collider="objects: .cube, #bow;" grab></a-entity>
+      <a-entity hand-controls="left" aabb-collider="objects:#bow;" grab></a-entity>
+      <a-entity hand-controls="right" aabb-collider="objects:#bow;" grab></a-entity>
 </a-scene>
   </body>
 </html>

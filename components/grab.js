@@ -1,23 +1,22 @@
 /* global AFRAME */
 
 /**
-* Handles events coming from the hand-controls.
-* Determines if the entity is grabbed or released.
-* Updates its position to move along the controller.
-*/
+ * Handles events coming from the hand-controls.
+ * Determines if the entity is grabbed or released.
+ * Updates its position to move along the controller.
+ */
 AFRAME.registerComponent('grab', {
-  init: function () {
+  init: function() {
     this.GRABBED_STATE = 'grabbed';
     // Bind event handlers
     this.onHit = this.onHit.bind(this);
     this.onGripOpen = this.onGripOpen.bind(this);
     this.onGripClose = this.onGripClose.bind(this);
-    // this.onTriggerDown = this.onTriggerDown.bind(this);
-
-    this.objectWasDynamic=false;
+    this.onTriggerDown = this.onTriggerDown.bind(this);
+    this.onTriggerUp = this.onTriggerUp.bind(this);
   },
 
-  play: function () {
+  play: function() {
     var el = this.el;
     el.addEventListener('hit', this.onHit);
     el.addEventListener('gripclose', this.onGripClose);
@@ -26,12 +25,12 @@ AFRAME.registerComponent('grab', {
     el.addEventListener('thumbdown', this.onGripOpen);
     el.addEventListener('pointup', this.onGripClose);
     el.addEventListener('pointdown', this.onGripOpen);
-    el.addEventListener('triggerdown',this.onTriggerDown);
-    el.addEventListener('triggerup',this.onTriggerUp);
+    el.addEventListener('triggerdown', this.onTriggerDown);
+    el.addEventListener('triggerup', this.onTriggerUp);
 
   },
 
-  pause: function () {
+  pause: function() {
     var el = this.el;
     el.removeEventListener('hit', this.onHit);
     el.removeEventListener('gripclose', this.onGripClose);
@@ -40,64 +39,69 @@ AFRAME.registerComponent('grab', {
     el.removeEventListener('thumbdown', this.onGripOpen);
     el.removeEventListener('pointup', this.onGripClose);
     el.removeEventListener('pointdown', this.onGripOpen);
-    el.removeEventListener('triggerdown',this.onTriggerDown);
-    el.removeEventListener('triggerup',this.onTriggerUp);
-  },
-  
-  onTriggerUp:function(evt){
-    var _t=this;
-        console.log('trigger up event',evt);
-        console.log('this',this.getAttribute('hand-controls'))
-
-     var vector = new THREE.Vector3(); // create once and reuse it!
-
-    _t.el.object3D.getWorldDirection( vector );
-
-    console.log('vector at trigger up',vector)
+    el.removeEventListener('triggerdown', this.onTriggerDown);
+    el.removeEventListener('triggerup', this.onTriggerUp);
   },
 
-  onTriggerDown:function(evt){
-    console.log('trigger down event',evt);
+  onTriggerUp: function(evt) {
+
+    // console.log('trigger up event', evt);
+
+    // var vector = new THREE.Vector3(); // create once and reuse it!
+
+    // this.el.object3D.getWorldDirection(vector);
+
+    // console.log('vector at trigger up', vector)
   },
 
-  onGripClose: function (evt) {
+  onTriggerDown: function(evt) {
+    // console.log('trigger down event', evt);
+
+      // function handleHit (hitEl) {
+      //   hitEl.emit('hit');
+      //   hitEl.addState(self.data.state);
+      //   self.el.emit('hit', {el: hitEl});
+      // }
+
+  },
+
+  onGripClose: function(evt) {
     this.grabbing = true;
     delete this.previousPosition;
   },
 
-  onGripOpen: function (evt) {
+  onGripOpen: function(evt) {
     var hitEl = this.hitEl;
     this.grabbing = false;
-    if (!hitEl) { return; }
+    if (!hitEl) {
+      return;
+    }
     hitEl.removeState(this.GRABBED_STATE);
 
 
-    if(this.objectWasDynamic===true){
-      hitEl.setAttribute('dynamic-body','')
-    }
-    this.objectWasDynamic=null;
     this.hitEl = undefined;
-    hitEl.removeAttribute('static-body')
+
 
   },
 
-  onHit: function (evt) {
+  onHit: function(evt) {
     var hitEl = evt.detail.el;
     // If the element is already grabbed (it could be grabbed by another controller).
     // If the hand is not grabbing the element does not stick.
     // If we're already grabbing something you can't grab again.
-    if (!hitEl || hitEl.is(this.GRABBED_STATE) || !this.grabbing || this.hitEl) { return; }
+    if (!hitEl || hitEl.is(this.GRABBED_STATE) || !this.grabbing || this.hitEl) {
+      return;
+    }
     hitEl.addState(this.GRABBED_STATE);
     this.hitEl = hitEl;
-    this.objectWasDynamic=true;
-    hitEl.removeAttribute('dynamic-body')
-    hitEl.setAttribute('static-body','')
   },
 
-  tick: function () {
+  tick: function() {
     var hitEl = this.hitEl;
     var position;
-    if (!hitEl) { return; }
+    if (!hitEl) {
+      return;
+    }
     this.updatePositionDelta(hitEl);
     position = hitEl.getAttribute('position');
     hitEl.setAttribute('position', {
@@ -105,12 +109,20 @@ AFRAME.registerComponent('grab', {
       y: position.y + this.deltaPosition.y,
       z: position.z + this.deltaPosition.z
     });
-    rotation = hitEl.getAttribute('rotation');
-    var newRotation=null;
-    //hitEl.setAttribute('rotation', newRotation);
+
+
+    var handRotationQuat = this.el.object3D.quaternion;
+    var bowRotationQuat = this.hitEl.object3D.quaternion;
+
+    bowRotationQuat.copy(handRotationQuat);
+
+    var rotateQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
+
+    bowRotationQuat.multiply(rotateQuat);
+
   },
 
-  updatePositionDelta: function (hitEl) {
+  updatePositionDelta: function(hitEl) {
     var currentPosition = this.el.getAttribute('position');
     var previousPosition = this.previousPosition || currentPosition;
     var deltaPosition = {
