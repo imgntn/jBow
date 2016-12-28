@@ -154,9 +154,9 @@ AFRAME.registerComponent('bow-and-arrow', {
       entity.setAttribute('scale', '0.05 0.05 0.05');
       entityRotation = entity.getAttribute('rotation');
       entity.setAttribute('rotation', {
-        x: entityRotation.x + rotation.x,
+        x: entityRotation.x + rotation.x -90,
         y: entityRotation.y + rotation.y,
-        z: entityRotation.z + rotation.z
+        z: entityRotation.z + rotation.z 
       });
     });
 

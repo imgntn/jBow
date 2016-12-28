@@ -25,7 +25,7 @@ cylinderAxis    shape:cylinder  —   Override default axis of bounding cylinder
 
 <!-- <a-scene debug vr-mode-ui keyboard-shortcuts physics="debug: true;">
  -->
-<a-scene  vr-mode-ui keyboard-shortcuts physics="debug:true" pool__arrow="mixin: arrowpool; size : 3">
+<a-scene vr-mode-ui keyboard-shortcuts physics="debug:true" pool__arrow="mixin: arrowpool; size : 3">
 
 <a-assets>
 
@@ -34,15 +34,14 @@ cylinderAxis    shape:cylinder  —   Override default axis of bounding cylinder
 <a-asset-item id="bow-mtl" src="assets/models/sg-bow-2-obj/sg-bow-2.mtl"></a-asset-item>
 <a-asset-item id="arrow-obj" src="assets/models/low-poly-arrow-obj/low-poly-arrow.obj"></a-asset-item>
 <a-asset-item id="arrow-mtl" src="assets/models/low-poly-arrow-obj/low-poly-arrow.mtl"></a-asset-item>
-<a-mixin id="arrowpool" dynamic-body position="1 1 1 " scale="0.05 0.05 0.05" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"></a-mixin>
+<a-mixin id="arrowpool" dynamic-body position="1 1 1" scale="0.005 0.005 0.005" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"></a-mixin>
 <!--  <audio id="neigh" src="neigh.mp3">
  -->
 </a-assets>
 
   <!-- Camera -->
   <a-entity camera look-controls></a-entity>
-  <!-- Floor -->
-  <a-entity position=" 0 -1 0" geometry="primitive: box; height: 1; width: 10; depth: 10" static-body="shape:box"></a-entity>
+
  <!-- Environment -->
         <a-entity id="sky"  geometry="primitive: sphere; radius: 65;" material="shader: skyGradient; colorTop: #353449; colorBottom: #BC483E; side: back"></a-entity>
          <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="8 10 18"></a-entity>
@@ -50,9 +49,14 @@ cylinderAxis    shape:cylinder  —   Override default axis of bounding cylinder
          <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.4;" position="-8 10 -18"></a-entity>
 
 <!-- bow and arrow -->
-
+<a-plane color="yellow" static-body position="0 -3 0" rotation="-90 0 0"  width="100" height="100"></a-plane>
 <a-entity bow-and-arrow trigger-handler position="-0.5 1 -0.5"></a-entity bow-and-arrow>
 
+  <!-- Immovable box -->
+  <a-box static-body color="red" position="0 0.5 -5" width="3" height="1" depth="1"></a-box>
+
+  <!-- Dynamic box -->
+  <a-box dynamic-body color="blue" position="5 0.5 0" width="1" height="1" depth="1"></a-box>
         <!-- Hands -->
  
       <a-entity id="leftHand" hand-controls="left" aabb-collider="objects:#bow;" grab></a-entity>
