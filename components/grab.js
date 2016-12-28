@@ -52,16 +52,19 @@ AFRAME.registerComponent('grab', {
     // this.el.object3D.getWorldDirection(vector);
 
     // console.log('vector at trigger up', vector)
+
+    var bow = document.querySelector('#bow')
+    bow.emit('shootArrow', {
+      hand: this.el.getAttribute('hand-controls')
+    })
   },
 
-  onTriggerDown: function(evt) {
-    // console.log('trigger down event', evt);
 
-      // function handleHit (hitEl) {
-      //   hitEl.emit('hit');
-      //   hitEl.addState(self.data.state);
-      //   self.el.emit('hit', {el: hitEl});
-      // }
+  onTriggerDown: function(evt) {
+    var bow = document.querySelector('#bow')
+    bow.emit('spawnArrow', {
+      hand: this.el.getAttribute('hand-controls')
+    })
 
   },
 
@@ -77,7 +80,10 @@ AFRAME.registerComponent('grab', {
       return;
     }
     hitEl.removeState(this.GRABBED_STATE);
-
+    var bow = document.querySelector('#bow')
+    bow.emit('freeHands', {
+      hand: this.el.getAttribute('hand-controls')
+    })
 
     this.hitEl = undefined;
 
@@ -94,6 +100,11 @@ AFRAME.registerComponent('grab', {
     }
     hitEl.addState(this.GRABBED_STATE);
     this.hitEl = hitEl;
+    var hand = this.el.getAttribute('hand-controls')
+    var bow = document.querySelector('#bow')
+    bow.emit('setPrimaryHand', {
+      hand: hand
+    })
   },
 
   tick: function() {
