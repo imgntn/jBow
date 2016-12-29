@@ -55,69 +55,54 @@ AFRAME.registerComponent('bow-and-arrow', {
     if (this.primaryHand === null || this.primaryHand === evt.detail.hand) {
       return;
     }
-    console.log('shootArrow evt', evt)
     var scene = document.querySelector('a-scene');
     var force = this.getShotForce();
     var bow = document.querySelector('#bow');
-    bow.removeChild(this.arrow)
 
+    var arrow = document.createElement('a-entity');
+    arrow.className = "arrow"
     var matrixWorld = bow.object3D.matrixWorld;
-    var shotDirection = new THREE.Vector3();
-    shotDirection.setFromMatrixPosition(matrixWorld);
-    shotDirection.multiplyScalar(5);
+    var bowPosition = new THREE.Vector3();
+    bowPosition.setFromMatrixPosition(matrixWorld);
+
+    var rotation = bow.getAttribute('rotation');
+    arrow.setAttribute('obj-model', 'obj: #arrow-obj; mtl: #arrow-mtl')
+    arrow.setAttribute('scale', '0.005 0.005 0.005');
+    arrow.setAttribute('position',bowPosition);
+
+      entityRotation = arrow.getAttribute('rotation');
+      arrow.setAttribute('rotation', {
+        x: entityRotation.x + rotation.x -90,
+        y: entityRotation.y + rotation.y,
+        z: entityRotation.z + rotation.z 
+      });
 
 
-    var arrow = scene.components.pool__arrow.requestEntity();
 
-    scene.appendChild(arrow);
-    arrow.setAttribute('position', bow.getAttribute('position'))
+    var shotDirection = bow.object3D.getWorldDirection();
+    shotDirection.normalize().negate();
+    shotDirection.multiplyScalar(force*100)
 
+     console.log('shot info:',{
+      shotDirection:shotDirection,
+      bowPosition:bowPosition,
+      force:force
+     })
 
-    arrow.addEventListener('collide', function(e) {
-      handleArrowCollision(e);
+     arrow.addEventListener('body-loaded', function(data) {
+      this.body.applyImpulse(
+        /* impulse */
+        new CANNON.Vec3().copy(shotDirection),
+        /* world position */
+        new CANNON.Vec3().copy(this.getAttribute('position'))
+      );
+
     });
 
-
-    var shotPosition = arrow.getAttribute('position');
-
-    console.log('shotDirection', shotDirection);
-    console.log('shotPosition', shotPosition)
-
-    arrow.body.applyImpulse(
-      /* impulse */
-      new CANNON.Vec3().copy(shotDirection),
-      /* world position */
-      new CANNON.Vec3().copy(shotPosition)
-    );
-
-    window.arrow = arrow;
-
-    // var entity = document.createElement('a-entity');
-    // entity.className = "arrow-fired"
-    // entity.setAttribute('obj-model', 'obj: #arrow-obj; mtl: #arrow-mtl')
-    // entity.setAttribute('scale', '0.05 0.05 0.05 ');
-    // entity.setAttribute('position', '0 0 0');
-    // entity.setAttribute('dynamic-body', 'shape:auto');
-    // scene.appendChild(entity);
-
-
-    // entity.addEventListener('loaded', function(data) {
-    //   console.log('data at loaded is...',data)
-    //   console.log('shotDirection', shotDirection);
-    //   var shotPosition = entity.getAttribute('position');
-    //   console.log('shotPosition', shotPosition)
-    //   console.log('arrow fired loaded', entity)
-    //   console.log('entity has body',entity.body)
-    //   window.entity=entity;
-    //   entity.body.applyImpulse(
-    //     /* impulse */
-    //     new CANNON.Vec3().copy(shotDirection),
-    //     /* world position */
-    //     new CANNON.Vec3().copy(shotPosition)
-    //   );
-
-    // });
-
+     
+     scene.appendChild(arrow);
+     arrow.setAttribute('dynamic-body',"shape:box;angularDamping:0.1");
+    bow.removeChild(this.arrow);
   },
 
   destroyArrow: function() {

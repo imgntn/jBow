@@ -1,7 +1,7 @@
-# Blender MTL File: 'bow.blend'
-# Material Count: 4
+# Blender MTL File: 'None'
+# Material Count: 3
 
-newmtl 0
+newmtl Mat
 Ns 94.117647
 Ka 0.000000 0.000000 0.000000
 Kd 1.000000 1.000000 1.000000
@@ -10,10 +10,9 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd 0Surface_Color.png
-map_Bump 0Surface_Color.png
+map_Kd feather_texture_by_anaysaphir-d5uis3a.jpg
 
-newmtl 1
+newmtl Mat.001
 Ns 94.117647
 Ka 0.000000 0.000000 0.000000
 Kd 1.000000 1.000000 1.000000
@@ -22,9 +21,9 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd 1Surface_Color.png
+map_Kd nIq48OY.jpg
 
-newmtl 2
+newmtl Mat.002
 Ns 94.117647
 Ka 0.000000 0.000000 0.000000
 Kd 1.000000 1.000000 1.000000
@@ -33,15 +32,5 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd 2Surface_Color.png
-
-newmtl 3
-Ns 94.117647
-Ka 0.000000 0.000000 0.000000
-Kd 1.000000 1.000000 1.000000
-Ks 0.100000 0.100000 0.100000
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 2
-map_Kd 3Surface_Color.png
+map_Kd 922f145fcca2d4dd87186af3a90c8d3a.jpg
+map_Bump 922f145fcca2d4dd87186af3a90c8d3a.jpg

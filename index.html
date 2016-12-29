@@ -13,7 +13,8 @@ cylinderAxis    shape:cylinder  —   Override default axis of bounding cylinder
     <meta charset="utf-8">
     <title>jBow</title>
     <meta name="description" content="jBow">
-    <script src="aframe-master-working-hands.js"></script>
+        <script src="aframe-master.min.js"></script>
+    
     <script src="components/aabb-collider.js"></script>
     <script src="components/grab.js"></script>
     <script src="components/bow-and-arrow.js"></script>
@@ -23,9 +24,8 @@ cylinderAxis    shape:cylinder  —   Override default axis of bounding cylinder
   </head>
   <body>
 
-<!-- <a-scene debug vr-mode-ui keyboard-shortcuts physics="debug: true;">
- -->
-<a-scene vr-mode-ui keyboard-shortcuts physics="debug:true" pool__arrow="mixin: arrowpool; size : 3">
+<!-- <a-scene vr-mode-ui keyboard-shortcuts physics="debug:true" pool__arrow="mixin: arrowpool; size : 3"> -->
+<a-scene vr-mode-ui keyboard-shortcuts physics="debug:true" >
 
 <a-assets>
 
@@ -57,6 +57,8 @@ cylinderAxis    shape:cylinder  —   Override default axis of bounding cylinder
 
   <!-- Dynamic box -->
   <a-box dynamic-body color="blue" position="5 0.5 0" width="1" height="1" depth="1"></a-box>
+    <a-entity id="testArow" obj-model="obj: #arrow-obj; mtl: #arrow-mtl" dynamic-body="shape:box"  position="0 0 0 " scale="0.005 0.005 0.005"></a-entity>
+
         <!-- Hands -->
  
       <a-entity id="leftHand" hand-controls="left" aabb-collider="objects:#bow;" grab></a-entity>
