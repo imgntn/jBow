@@ -141,6 +141,8 @@ AFRAME.registerComponent('bow-and-arrow', {
       new CANNON.Vec3().copy(arrow.getAttribute('position'))
     );
 
+    arrow.setAttribute('rotate-toward-velocity')
+
 
     bow.removeChild(this.arrowInBow);
 
@@ -229,7 +231,7 @@ AFRAME.registerComponent('bow-and-arrow', {
   }
 
   var scene = document.getElementById('scene');
-
+  arrow.removeAttribute('rotate-toward-velocity')
   arrow.removeAttribute('dynamic-body')
 
   setTimeout(function removeArrow() {

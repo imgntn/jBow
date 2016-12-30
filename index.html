@@ -1,68 +1,59 @@
-<!-- Property    Dependencies    Default Description
-shape   —   auto    auto, box, cylinder, sphere, hull
-mass    dynamic-body    5   Simulated mass of the object, > 0.
-linearDamping   dynamic-body    0.01    Resistance to movement.
-angularDamping  dynamic-body    0.01    Resistance to rotation.
-sphereRadius    shape:sphere    —   Override default radius of bounding sphere.
-cylinderAxis    shape:cylinder  —   Override default axis of bounding cylinder.
- -->
-
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>jBow</title>
-    <meta name="description" content="jBow">
-        <script src="aframe-master.min.js"></script>
-    
-    <script src="components/aabb-collider.js"></script>
-    <script src="components/grab.js"></script>
-    <script src="components/bow-and-arrow.js"></script>
-    <script src="components/trigger-handler.js"></script>
-    <script src="shaders/skyGradient.js"></script>
-    <script src="aframe-physics-system.js"></script>
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <title>jBow</title>
+  <meta name="description" content="jBow">
+  <script src="aframe-master.min.js"></script>
+  <script src="components/aframe-outline.min.js"></script>
+  <script src="components/aabb-collider.js"></script>
+  <script src="components/grab.js"></script>
+  <script src="components/bow-and-arrow.js"></script>
+  <script src="components/rotate-toward-velocity.js"></script>
+  <script src="shaders/skyGradient.js"></script>
+  <script src="aframe-physics-system.js"></script>
+</head>
+<body>
 
-<a-scene id="scene" vr-mode-ui keyboard-shortcuts physics="debug:true" pool__arrow="mixin: arrowpool; size : 10">
+  <a-scene outline id="scene" vr-mode-ui keyboard-shortcuts physics="debug:true" pool__arrow="mixin: arrowpool; size : 10">
 
-<a-assets>
+    <a-assets>
 
-<!-- bow and arrow models   <script src="aframe-v0.4.0.js"></script> -->
-<a-asset-item id="bow-obj" src="assets/models/sg-bow-2-obj/sg-bow-2-rotated.obj"></a-asset-item>
-<a-asset-item id="bow-mtl" src="assets/models/sg-bow-2-obj/sg-bow-2.mtl"></a-asset-item>
-<a-asset-item id="arrow-obj" src="assets/models/low-poly-arrow-obj/low-poly-arrow-rotated.obj"></a-asset-item>
-<a-asset-item id="arrow-mtl" src="assets/models/low-poly-arrow-obj/low-poly-arrow.mtl"></a-asset-item>
-<a-mixin id="arrowpool" dynamic-body="shape:box;angularDamping:0.1" scale="0.005 0.005 0.005" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"></a-mixin>
-<!--  <audio id="neigh" src="neigh.mp3">
- -->
-</a-assets>
+      <!-- bow and arrow models   <script src="aframe-v0.4.0.js"></script> -->
+      <a-asset-item id="bow-obj" src="assets/models/sg-bow-2-obj/sg-bow-2-rotated.obj"></a-asset-item>
+      <a-asset-item id="bow-mtl" src="assets/models/sg-bow-2-obj/sg-bow-2.mtl"></a-asset-item>
+      <a-asset-item id="arrow-obj" src="assets/models/low-poly-arrow-obj/low-poly-arrow-rotated.obj"></a-asset-item>
+      <a-asset-item id="arrow-mtl" src="assets/models/low-poly-arrow-obj/low-poly-arrow.mtl"></a-asset-item>
+      <a-mixin id="arrowpool" dynamic-body="shape:box;angularDamping:0.1" scale="0.005 0.005 0.005" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"></a-mixin>
+      <!--  <audio id="neigh" src="neigh.mp3">
+      -->
+    </a-assets>
 
-  <!-- Camera -->
-  <a-entity camera look-controls></a-entity>
+    <!-- Camera -->
+    <a-entity camera look-controls></a-entity>
 
- <!-- Environment -->
-        <a-entity id="sky"  geometry="primitive: sphere; radius: 65;" material="shader: skyGradient; colorTop: #353449; colorBottom: #BC483E; side: back"></a-entity>
-         <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="8 10 18"></a-entity>
-         <a-entity light="type: point; color: #f4f4f4; intensity: 0.6; distance: 0" position="-8 10 -18"></a-entity>
-         <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.4;" position="-8 10 -18"></a-entity>
+    <!-- Environment -->
+    <a-entity id="sky"  geometry="primitive: sphere; radius: 65;" material="shader: skyGradient; colorTop: #353449; colorBottom: #BC483E; side: back"></a-entity>
+    <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="8 10 18"></a-entity>
+    <a-entity light="type: point; color: #f4f4f4; intensity: 0.6; distance: 0" position="-8 10 -18"></a-entity>
+    <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.4;" position="-8 10 -18"></a-entity>
 
-<!-- bow and arrow -->
-<a-plane color="yellow" static-body position="0 -3 0" rotation="-90 0 0"  width="100" height="100"></a-plane>
-<a-entity bow-and-arrow trigger-handler position="-0.5 1 -0.5"></a-entity bow-and-arrow>
+    <!-- bow and arrow -->
+    <a-plane color="yellow" static-body position="0 -3 0" rotation="-90 0 0"  width="100" height="100"></a-plane>
+    <a-entity  bow-and-arrow trigger-handler position="-0.5 1 -0.5"></a-entity bow-and-arrow>
 
-  <!-- Immovable box -->
-  <a-box static-body color="red" position="0 0.5 -5" width="3" height="1" depth="1"></a-box>
+    <!-- Immovable box -->
+    <a-box static-body color="red" position="0 0.5 -5" width="3" height="1" depth="1"></a-box>
 
-  <!-- Dynamic box -->
-  <a-box dynamic-body color="blue" position="5 0.5 0" width="1" height="1" depth="1"></a-box>
-  
-<!--     <a-entity id="testArow" obj-model="obj: #arrow-obj; mtl: #arrow-mtl" dynamic-body="shape:box"  position="0 0 0 " scale="0.005 0.005 0.005"></a-entity> -->
+    <!-- Dynamic box -->
+    <a-box dynamic-body color="blue" position="5 0.5 0" width="1" height="1" depth="1"></a-box>
 
-        <!-- Hands -->
- 
-      <a-entity id="leftHand" hand-controls="left" aabb-collider="objects:#bow;" grab></a-entity>
-      <a-entity id ="rightHand" hand-controls="right" aabb-collider="objects:#bow;" grab></a-entity>
-</a-scene>
-  </body>
+    <!--     <a-entity id="testArow" obj-model="obj: #arrow-obj; mtl: #arrow-mtl" dynamic-body="shape:box"  position="0 0 0 " scale="0.005 0.005 0.005"></a-entity> -->
+
+    <!-- Hands -->
+
+    <a-entity id="leftHand" hand-controls="left" aabb-collider="objects:#bow;" grab></a-entity>
+    <a-entity id ="rightHand" hand-controls="right" aabb-collider="objects:#bow;" grab></a-entity>
+  </a-scene>
+</body>
 </html>
