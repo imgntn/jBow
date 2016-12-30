@@ -12,6 +12,7 @@ todo:
 
 
 https://vilbeyli.github.io/Simple-Trajectory-Motion-Example-Unity3D/
+```
     void Update ()
     {
         Vector3 vel = GetComponent<Rigidbody>().velocity;
@@ -21,13 +22,13 @@ https://vilbeyli.github.io/Simple-Trajectory-Motion-Example-Unity3D/
 myArrow.transform.forward =
     Vector3.Slerp(myArrow.transform.forward, myArrow.rigidbody.velocity.normalized, Time.deltaTime);
 
-
+```
 https://sites.google.com/site/technicalarchery/technical-discussions-1/trajectory
 http://physics.stackexchange.com/questions/264165/why-do-archery-arrows-tilt-downwards-in-their-descent
 
 
 https://github.com/schteppe/cannon.js/issues/232
-
+```
 var updateCOM = function( body ) {
 
 //first calculate the center of mass
@@ -49,3 +50,4 @@ var worldCOM = new CANNON.Vec3();
 body.vectorToWorldFrame( com, worldCOM );
 body.position.vadd( worldCOM, body.position );
 };
+```
