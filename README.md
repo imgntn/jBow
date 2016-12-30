@@ -1,18 +1,14 @@
 todo:
 
--[x] reduce lag at shot (try a pool, try more specific selectors)
--[x] when arrows collide, remove dynamic body and make them stick
-
--[] arrow rotation at shot should be front of bow
--[] realistic trajectory -- rotate toward velocity. probably its own component. 
-
--[] add some targets
-
--[] sound for nocking arrow
--[] sound for shooting arrow
-
--[] haptic pulse for shooting arrow
--[] haptic pulse onhit
+- [x] reduce lag at shot (try a pool, try more specific selectors)
+- [x] when arrows collide, remove dynamic body and make them stick
+- [] arrow rotation at shot should be front of bow
+- [] realistic trajectory -- rotate toward velocity. probably its own component. 
+- [] add some targets
+- [] sound for nocking arrow
+- [] sound for shooting arrow
+- [] haptic pulse for shooting arrow
+- [] haptic pulse onhit
 
 
 https://vilbeyli.github.io/Simple-Trajectory-Motion-Example-Unity3D/
