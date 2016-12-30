@@ -1,4 +1,4 @@
-# Blender MTL File: 'None'
+# Blender MTL File: 'bow.blend'
 # Material Count: 4
 
 newmtl 0
@@ -10,8 +10,8 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd 0Surface_Color.png
-map_Bump 0Surface_Color.png
+map_Kd C:\Users\james_000\Desktop\jBow\assets\models\0Surface_Color.png
+map_Bump C:\\Users\\james_000\\Desktop\\jBow\\assets\\models\\0Surface_Color.png
 
 newmtl 1
 Ns 94.117647
@@ -22,7 +22,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd 1Surface_Color.png
+map_Kd C:\Users\james_000\Desktop\jBow\assets\models\1Surface_Color.png
 
 newmtl 2
 Ns 94.117647
@@ -33,7 +33,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd 2Surface_Color.png
+map_Kd C:\Users\james_000\Desktop\jBow\assets\models\2Surface_Color.png
 
 newmtl 3
 Ns 94.117647
@@ -44,4 +44,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd 3Surface_Color.png
+map_Kd C:\Users\james_000\Desktop\jBow\assets\models\3Surface_Color.png

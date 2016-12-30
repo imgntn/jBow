@@ -20,6 +20,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.shootArrow = this.shootArrow.bind(this);
     this.setPrimaryHand = this.setPrimaryHand.bind(this);
     this.freeHands = this.freeHands.bind(this);
+
   },
 
   play: function() {
@@ -50,64 +51,6 @@ AFRAME.registerComponent('bow-and-arrow', {
 
   },
 
-  shootArrow: function(evt) {
-    //dont shoot if its the trigger on the primary hand
-    if (this.primaryHand === null || this.primaryHand === evt.detail.hand) {
-      return;
-    }
-    var scene = document.querySelector('a-scene');
-    var force = this.getShotForce();
-    var bow = document.querySelector('#bow');
-
-    var arrow = document.createElement('a-entity');
-    arrow.className = "arrow"
-    var matrixWorld = bow.object3D.matrixWorld;
-    var bowPosition = new THREE.Vector3();
-    bowPosition.setFromMatrixPosition(matrixWorld);
-
-    var rotation = bow.getAttribute('rotation');
-    arrow.setAttribute('obj-model', 'obj: #arrow-obj; mtl: #arrow-mtl')
-    arrow.setAttribute('scale', '0.005 0.005 0.005');
-    arrow.setAttribute('position',bowPosition);
-
-      entityRotation = arrow.getAttribute('rotation');
-      arrow.setAttribute('rotation', {
-        x: entityRotation.x + rotation.x -90,
-        y: entityRotation.y + rotation.y,
-        z: entityRotation.z + rotation.z 
-      });
-
-
-
-    var shotDirection = bow.object3D.getWorldDirection();
-    shotDirection.normalize().negate();
-    shotDirection.multiplyScalar(force*100)
-
-     console.log('shot info:',{
-      shotDirection:shotDirection,
-      bowPosition:bowPosition,
-      force:force
-     })
-
-     arrow.addEventListener('body-loaded', function(data) {
-      this.body.applyImpulse(
-        /* impulse */
-        new CANNON.Vec3().copy(shotDirection),
-        /* world position */
-        new CANNON.Vec3().copy(this.getAttribute('position'))
-      );
-
-    });
-
-     
-     scene.appendChild(arrow);
-     arrow.setAttribute('dynamic-body',"shape:box;angularDamping:0.1");
-    bow.removeChild(this.arrow);
-  },
-
-  destroyArrow: function() {
-    //if shot is under minimum threshold for force, then just delete the arrow
-  },
 
   spawnArrow: function(evt) {
     if (this.primaryHand === null || this.primaryHand === evt.detail.hand) {
@@ -139,9 +82,9 @@ AFRAME.registerComponent('bow-and-arrow', {
       entity.setAttribute('scale', '0.05 0.05 0.05');
       entityRotation = entity.getAttribute('rotation');
       entity.setAttribute('rotation', {
-        x: entityRotation.x + rotation.x -90,
+        x: entityRotation.x + rotation.x,
         y: entityRotation.y + rotation.y,
-        z: entityRotation.z + rotation.z 
+        z: entityRotation.z + rotation.z
       });
     });
 
@@ -149,7 +92,57 @@ AFRAME.registerComponent('bow-and-arrow', {
 
     bow.appendChild(entity);
 
-    _t.arrow = entity;
+    _t.arrowInBow = entity;
+
+  },
+
+  shootArrow: function(evt) {
+    var _t=this;
+    //dont shoot if its the trigger on the primary hand
+    if (this.primaryHand === null || this.primaryHand === evt.detail.hand) {
+      return;
+    }
+    var scene = document.getElementById('scene');
+    var force = this.getShotForce();
+    var bow = document.querySelector('#bow');
+
+    // var arrow = document.createElement('a-entity');
+    // arrow.className = "arrow"
+    var matrixWorld = bow.object3D.matrixWorld;
+    var bowPosition = new THREE.Vector3();
+    bowPosition.setFromMatrixPosition(matrixWorld);
+
+    var rotation = bow.getAttribute('rotation');
+
+    var arrow = scene.components.pool__arrow.requestEntity();
+    arrow.className = "arrow";
+    arrow.setAttribute('position', bowPosition);
+
+    var shotDirection = bow.object3D.getWorldDirection();
+    shotDirection.normalize().negate();
+    shotDirection.multiplyScalar(force * 30)
+
+    console.log('shot info:', {
+      shotDirection: shotDirection,
+      bowPosition: bowPosition,
+      force: force
+    })
+
+    arrow.addEventListener('collide', function(e) {
+      _t.handleArrowCollision(e, arrow);
+    })
+
+    arrow.play()
+    this.vibrateController();
+    arrow.body.applyImpulse(
+      /* impulse */
+      new CANNON.Vec3().copy(shotDirection),
+      /* world position */
+      new CANNON.Vec3().copy(arrow.getAttribute('position'))
+    );
+
+
+    bow.removeChild(this.arrowInBow);
 
   },
 
@@ -184,48 +177,75 @@ AFRAME.registerComponent('bow-and-arrow', {
     return difference;
   },
 
+  destroyArrow: function() {
+    //if shot is under minimum threshold for force, then just delete the arrow
+  },
+
   tick: function() {
     //keep the arrow with the bow
 
   },
 
-});
+  vibrateController: function() {
+    console.log('vibrate controller')
+    var gamepads = navigator.getGamepads();
+    for (var i = 0; i < gamepads.length; ++i) {
+      var gamepad = gamepads[i];
+      // The array may contain undefined gamepads, so check for that as
+      // well as a non-null pose.
+      if (gamepad) {
+        if (gamepad.pose)
 
-function handleArrowCollision(e) {
+          console.log('vibrate controller 2')
+        if ("hapticActuators" in gamepad && gamepad.hapticActuators.length > 0) {
+           console.log('vibrate controller 3')
+          for (var j = 0; j < gamepad.buttons.length; ++j) {
+            if (gamepad.buttons[j].pressed) {
+              console.log('vibrate controller 4')
+                // Vibrate the gamepad using to the value of the button as
+                // the vibration intensity.
+              gamepad.hapticActuators[0].pulse(gamepad.buttons[j].value, 100);
+              break;
+            }
+          }
+        }
+      }
+    }
+
+  },
+ handleArrowCollision:function(e, arrow) {
   console.log('Arrow has collided with body #' + e.detail.body.id);
 
-  e.detail.target.el; // Original entity (playerEl).
-  e.detail.body.el; // Other entity, which playerEl touched.
-  e.detail.contact; // Stats about the collision (CANNON.ContactEquation).
-  e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
-  sceneEl.components.pool__enemy.returnEntity(this);
+  //should try to see if cannon differentiates between start collision etc.
+  // but if u return to pool to soon, crash
+  // so gotta set a timeout
+  // but many collisions can happen before that timeout.
+   if(arrow.getAttribute('didCollide')==='yes'){
+    console.log('already collided arrow')
+    return
+   }
+  else{
+    arrow.setAttribute('didCollide','yes')
+  }
+
+  var scene = document.getElementById('scene');
+
+  arrow.removeAttribute('dynamic-body')
+
+  setTimeout(function removeArrow() {
+     arrow.setAttribute('didCollide','no')
+    scene.components.pool__arrow.returnEntity(arrow);
+  }, 0)
+
+  // e.detail.target.el; // Original entity (playerEl).
+  // e.detail.body.el; // Other entity, which playerEl touched.
+  // e.detail.contact; // Stats about the collision (CANNON.ContactEquation).
+  // e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
 }
+
+
+});
+
 
 // quat example
 //http://jsfiddle.net/steveow/9a5465p6/12/
-
-
-// vibrateController: function() {
-//   var gamepads = navigator.getGamepads();
-//   for (var i = 0; i < gamepads.length; ++i) {
-//     var gamepad = gamepads[i];
-//     // The array may contain undefined gamepads, so check for that as
-//     // well as a non-null pose.
-//     if (gamepad) {
-//       if (gamepad.pose)
-
-
-//         if ("hapticActuators" in gamepad && gamepad.hapticActuators.length > 0) {
-//         for (var j = 0; j < gamepad.buttons.length; ++j) {
-//           if (gamepad.buttons[j].pressed) {
-//             // Vibrate the gamepad using to the value of the button as
-//             // the vibration intensity.
-//             gamepad.hapticActuators[0].pulse(gamepad.buttons[j].value, 100);
-//             break;
-//           }
-//         }
-//       }
-//     }
-//   }
-
-// }
