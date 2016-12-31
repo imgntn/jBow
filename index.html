@@ -5,21 +5,21 @@
   <title>jBow</title>
   <meta name="description" content="jBow">
   <script src="aframe-master.min.js"></script>
-  <script src="components/aframe-outline.min.js"></script>
   <script src="components/aabb-collider.js"></script>
   <script src="components/grab.js"></script>
   <script src="components/bow-and-arrow.js"></script>
   <script src="components/rotate-toward-velocity.js"></script>
   <script src="shaders/skyGradient.js"></script>
   <script src="aframe-physics-system.js"></script>
+  <script src="components/aframe-outline.min.js"></script>
+
 </head>
 <body>
 
-  <a-scene outline id="scene" vr-mode-ui keyboard-shortcuts physics="debug:true" pool__arrow="mixin: arrowpool; size : 10">
+  <a-scene antialias outline id="scene" vr-mode-ui keyboard-shortcuts physics="" pool__arrow="mixin: arrowpool; size : 10">
 
     <a-assets>
 
-      <!-- bow and arrow models   <script src="aframe-v0.4.0.js"></script> -->
       <a-asset-item id="bow-obj" src="assets/models/sg-bow-2-obj/sg-bow-2-rotated.obj"></a-asset-item>
       <a-asset-item id="bow-mtl" src="assets/models/sg-bow-2-obj/sg-bow-2.mtl"></a-asset-item>
       <a-asset-item id="arrow-obj" src="assets/models/low-poly-arrow-obj/low-poly-arrow-rotated.obj"></a-asset-item>
