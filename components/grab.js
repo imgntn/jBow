@@ -45,20 +45,11 @@ AFRAME.registerComponent('grab', {
 
   onTriggerUp: function(evt) {
 
-    // console.log('trigger up event', evt);
-
-    // var vector = new THREE.Vector3(); // create once and reuse it!
-
-    // this.el.object3D.getWorldDirection(vector);
-
-    // console.log('vector at trigger up', vector)
-
     var bow = document.querySelector('#bow')
     bow.emit('shootArrow', {
       hand: this.el.getAttribute('hand-controls')
     })
   },
-
 
   onTriggerDown: function(evt) {
     var bow = document.querySelector('#bow')

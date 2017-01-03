@@ -4,16 +4,26 @@
  
  */
 AFRAME.registerComponent('rotate-toward-velocity', {
-      schema: {},
+  schema: {},
+  tick: function(time, delta) {
+    var body = this.el.body;
+    var obj3D = this.el.object3D;
+    var aimP = new THREE.Vector3();
+    var velocity = new THREE.Vector3();
+    velocity.copy(body.velocity);
+    velocity.negate();
+    aimP.copy(body.position).sub(velocity)
+    obj3D.lookAt(aimP);
 
-      tick: function(time, delta) {
-        var body = this.el.body;
-        var obj3D = this.el.object3D;
+    geometry = new THREE.BoxGeometry( 0.1,0.1,0.1);
+    material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
 
-        var aimP = new THREE.Vector3();
-        aimP.copy(body.position).sub(body.velocity).negate();
-        obj3D.lookAt(aimP);
-        body.quaternion.copy(obj3D.quaternion);
-      }
+    mesh = new THREE.Mesh( geometry, material );
+    mesh.position.copy(aimP);
+    var scene = document.getElementById('scene').object3D;
+    scene.add( mesh );
 
-      });
+    body.quaternion.copy(obj3D.quaternion);
+  }
+
+});

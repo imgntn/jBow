@@ -15617,6 +15617,7 @@ module.exports = {
     if (this.wireframe) this.el.sceneEl.object3D.add(this.wireframe);
 
     this.syncToPhysics();
+    this.el.emit('body-played', {body: this.el.body});
   },
 
   /**

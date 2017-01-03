@@ -23,7 +23,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     var arrow = document.getElementById('preShotArrow');
     entity.appendChild(arrow);
     this.preShotArrow = arrow;
-    this.forceThreshold=0.2;
+    this.forceThreshold=0.1;
   },
 
   play: function() {
@@ -66,6 +66,7 @@ AFRAME.registerComponent('bow-and-arrow', {
   },
 
   shootArrow: function(evt) {
+
     var _t = this;
     //dont shoot if its the trigger on the primary hand
     if (this.primaryHand === null || this.primaryHand === evt.detail.hand) {
@@ -96,23 +97,36 @@ AFRAME.registerComponent('bow-and-arrow', {
       console.log('GOT A BODY NOW')
     })    
 
+
+    arrow.addEventListener('body-played', function(e) {
+      console.log('GOT A BODY PLAYED EVENT')
+           arrow.body.quaternion.copy(bowRotation)
+            var shotDirection = bow.object3D.getWorldDirection();
+            shotDirection.negate();
+                shotDirection.multiplyScalar(10);
+                console.log('shot direction is',shotDirection)
+                arrow.setAttribute('rotate-toward-velocity','');
+       arrow.body.applyImpulse(
+      new CANNON.Vec3().copy(shotDirection),
+      new CANNON.Vec3().copy(this.object3D.getWorldPosition())
+    );
+
+        
+       console.log('did apply impulse')
+    })    
+
     var shotDirection = bow.object3D.getWorldDirection();
 
     shotDirection
       .negate()
-
+   
     var arrowHelper = new THREE.ArrowHelper(shotDirection, bowPosition, 5, 0x884400);
     scene.object3D.add(arrowHelper)
      var bowRotation = bow.object3D.getWorldQuaternion();
-     arrow.object3D.quaternion.copy(bowRotation)
+   //  arrow.object3D.quaternion.copy(bowRotation)
      arrow.play();
-     arrow.body.quaternion.copy(bowRotation)
-    //    arrow.body.applyImpulse(
-    //   /* impulse */
-    //   new CANNON.Vec3().copy(shotDirection),
-    //   /* world position */
-    //   new CANNON.Vec3().copy(bowPosition)
-    // );
+
+  
             // arrow.setAttribute('rotate-toward-velocity', '')
 
 
