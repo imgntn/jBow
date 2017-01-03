@@ -17,7 +17,7 @@
 </head>
 <body>
 
-  <a-scene gridhelper id="scene" physics="debug:true;gravity:-09.8" vr-mode-ui keyboard-shortcuts physics="" pool__arrow="mixin: arrowpool; size : 10">
+  <a-scene gridhelper id="scene" physics="debug:true;gravity:-09.8" vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 10">
 
     <a-assets>
 
@@ -26,8 +26,7 @@
       <a-asset-item id="arrow-obj" src="assets/models/low-poly-arrow-obj/low-poly-arrow-rotated.obj"></a-asset-item>
       <a-asset-item id="arrow-mtl" src="assets/models/low-poly-arrow-obj/low-poly-arrow.mtl"></a-asset-item>
       <a-mixin id="arrowpool" dynamic-body="shape:box;angularDamping:0.1;" scale="0.005 0.005 0.005" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"></a-mixin>
-   <!--    <a-mixin id="arrowpool" scale="0.005 0.005 0.005" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"></a-mixin>
- -->
+
     </a-assets>
 
     <!-- Camera -->
@@ -42,12 +41,9 @@
     <!-- bow and arrow -->
     <a-plane color="yellow" static-body position="0 -3 0" rotation="-90 0 0"  width="100" height="100"></a-plane>
 
-       <a-entity id="preShotArrow" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"position="0 0 0 " scale="0.05 0.05 0.05" visible="false"></a-entity>
+    <a-entity id="preShotArrow" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"position="0 0 0 " scale="0.05 0.05 0.05" visible="false"></a-entity>
 
-    <a-entity  bow-and-arrow  position="-0.5 1 -0.5">
-
-   </a-entity bow-and-arrow>
-
+    <a-entity  bow-and-arrow  position="-0.5 1 -0.5"></a-entity bow-and-arrow>
 
     <!-- Immovable box -->
     <a-box static-body color="red" position="0 0.5 -5" width="3" height="1" depth="1"></a-box>

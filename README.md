@@ -2,8 +2,8 @@ todo:
 
 - [x] reduce lag at shot (try a pool, try more specific selectors)
 - [x] when arrows collide, remove dynamic body and make them stick
-- [] sort out hand model vs. bow and arrow model rotations. pref with some pen and paper.
-- [] arrow rotation at shot should be front of bow
+- [x] arrow rotation at shot should be front of bow
+- [] why does arrow flip end over end?  because impulse position is middle? 
 - [] realistic trajectory -- rotate toward velocity. probably its own component. 
 - [] add some targets
 - [] sound for nocking arrow

@@ -97,21 +97,18 @@ AFRAME.registerComponent('bow-and-arrow', {
       console.log('GOT A BODY NOW')
     })    
 
-
     arrow.addEventListener('body-played', function(e) {
-      console.log('GOT A BODY PLAYED EVENT')
-           arrow.body.quaternion.copy(bowRotation)
-            var shotDirection = bow.object3D.getWorldDirection();
-            shotDirection.negate();
-                shotDirection.multiplyScalar(10);
-                console.log('shot direction is',shotDirection)
-                arrow.setAttribute('rotate-toward-velocity','');
-       arrow.body.applyImpulse(
-      new CANNON.Vec3().copy(shotDirection),
-      new CANNON.Vec3().copy(this.object3D.getWorldPosition())
-    );
-
-        
+          console.log('GOT A BODY PLAYED EVENT')
+          arrow.body.quaternion.copy(bowRotation)
+          var shotDirection = bow.object3D.getWorldDirection();
+          shotDirection.negate();
+          shotDirection.multiplyScalar(10);
+          console.log('shot direction is', shotDirection)
+          arrow.setAttribute('rotate-toward-velocity', '');
+          arrow.body.applyImpulse(
+            new CANNON.Vec3().copy(shotDirection),
+            new CANNON.Vec3().copy(this.object3D.getWorldPosition())
+          );
        console.log('did apply impulse')
     })    
 
@@ -123,7 +120,6 @@ AFRAME.registerComponent('bow-and-arrow', {
     var arrowHelper = new THREE.ArrowHelper(shotDirection, bowPosition, 5, 0x884400);
     scene.object3D.add(arrowHelper)
      var bowRotation = bow.object3D.getWorldQuaternion();
-   //  arrow.object3D.quaternion.copy(bowRotation)
      arrow.play();
 
   
