@@ -123,10 +123,6 @@ AFRAME.registerComponent('bow-and-arrow', {
      arrow.play();
 
   
-            // arrow.setAttribute('rotate-toward-velocity', '')
-
-
-
     // console.log('shot info:', {
     //   shotDirection: shotDirection,
     //   bowPosition: bowPosition,
