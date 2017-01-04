@@ -1,54 +1,32 @@
-todo:
+This project shows how to make a two-handed bow and arrow in webVR.
 
+You can pick it up using the grip button on either hand.  Then, take aim and pull the trigger on your back hand.  Releasing the trigger while shoot an arrow.  The force with which the arrow travels depends on the distance between your back hand and the bow.
+
+I made modifications to the ```grab``` component to communicate with the bow about which hand was used to grab.  
+
+Since I reuse arrows from a pool to improve performance, I also made slight modifications to the physics system in ```a-frame-physics-system``` so that it would emit a 'body-played' when the dynamic 
+
+My ```rotate-toward-velocity``` component keeps the arrow pointed in the direction of travel.
+
+# todo:
+
+0.1
 - [x] reduce lag at shot (try a pool, try more specific selectors)
 - [x] when arrows collide, remove dynamic body and make them stick
 - [x] arrow rotation at shot should be front of bow
-- [] why does arrow flip end over end?  because impulse position is middle? 
-- [] realistic trajectory -- rotate toward velocity. probably its own component. 
+- [x] why does arrow flip end over end?  because impulse position is middle? -- had to set fixedRotation since i'm doing it myself
+- [x] realistic trajectory -- rotate toward velocity. probably its own component. 
 - [x] add some targets
 - [x] sound for nocking arrow
 - [x] sound for shooting arrow
 - [x] haptic pulse for shooting arrow
 - [x] haptic pulse on item grab (doesnt seem to be actually in FF yet)
 
-
-https://vilbeyli.github.io/Simple-Trajectory-Motion-Example-Unity3D/
-```
-    void Update ()
-    {
-        Vector3 vel = GetComponent<Rigidbody>().velocity;
-        if(_rotate)
-            transform.rotation = Quaternion.LookRotation(vel);
-    }
-myArrow.transform.forward =
-    Vector3.Slerp(myArrow.transform.forward, myArrow.rigidbody.velocity.normalized, Time.deltaTime);
-
-```
-https://sites.google.com/site/technicalarchery/technical-discussions-1/trajectory
-http://physics.stackexchange.com/questions/264165/why-do-archery-arrows-tilt-downwards-in-their-descent
-
-
-https://github.com/schteppe/cannon.js/issues/232
-```
-var updateCOM = function( body ) {
-
-//first calculate the center of mass
-// NOTE: this method assumes all the shapes are voxels of equal mass.
-// If you're not using voxels, you'll need to calculate the COM a different way.
-var com = new CANNON.Vec3();
-body.shapeOffsets.forEach( function( offset ) {
-    com.vadd( offset, com );
-});
-com.scale( 1/body.shapes.length, com );
-
-//move the shapes so the body origin is at the COM
-body.shapeOffsets.forEach( function( offset ) {
-    offset.vsub( com, offset );
-});
-
-//now move the body so the shapes' net displacement is 0
-var worldCOM = new CANNON.Vec3();
-body.vectorToWorldFrame( com, worldCOM );
-body.position.vadd( worldCOM, body.position );
-};
-```
+0.2
+- [] add a cooldown otherwise we run through the whole pool of arrows.
+- [] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
+- [] arrows that disappear from sight never collide
+- [] string animations
+- [] pull arrow back in bow
+- [] how to better see the arrow during flight -- glow, particle trail?
+- [] animate targets

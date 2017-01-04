@@ -12,11 +12,10 @@
   <script src="components/rotate-toward-velocity.js"></script>
   <script src="shaders/skyGradient.js"></script>
   <script src="aframe-physics-system.js"></script>
-  <script src="components/aframe-outline.min.js"></script>
 </head>
 <body>
 
-  <a-scene gridhelper id="scene" physics="debug:true;gravity:-09.8" vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 10">
+  <a-scene gridhelper id="scene" physics="debug:true" vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 12">
 
     <a-assets>
       <a-asset-item id="bow-obj" src="assets/models/sg-bow-2-obj/sg-bow-2-rotated.obj"></a-asset-item>
@@ -40,17 +39,22 @@
 
     <!-- Environment -->
     <a-entity id="sky"  geometry="primitive: sphere; radius: 65;" material="shader: skyGradient; colorTop: #353449; colorBottom: #BC483E; side: back"></a-entity>
-    <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="8 10 18"></a-entity>
-    <a-entity light="type: point; color: #f4f4f4; intensity: 0.6; distance: 0" position="-8 10 -18"></a-entity>
+
+    <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="8 30 18"></a-entity>
+
+    <a-entity light="type: point; color: #f4f4f4; intensity: 0.6; distance: 0" position="-8 30 -18"></a-entity>
+
     <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.4;" position="-8 10 -18"></a-entity>
 
     <!-- bow and arrow -->
-    <a-plane color="yellow" static-body position="0 -2 0" rotation="-90 0 0"  width="100" height="100"></a-plane>
+    <a-plane color="yellow" static-body position="0 0 0" rotation="-90 0 0"  width="100" height="100"></a-plane>
+
+    <a-entity class="target"  static-body scale="10 10 10" rotation="0 90 0" position = "0 2 -10" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
+    <a-entity class="target" static-body scale="10 10 10"  rotation="0 90 0" position = "0 4 -12" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
+    <a-entity class="target" static-body scale="10 10 10" rotation="0 90 0" position = "0 6 -14" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
 
     <a-entity id="preShotArrow" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"position="0 0 0 " scale="0.05 0.05 0.05" visible="false"></a-entity>
-    <a-entity class="target"  scale="10 10 10" rotation="90 0 0" position = "0 1 -2" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
-    <a-entity class="target" scale="10 10 10"  rotation="90 0 0" position = "0 2 -2" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
-    <a-entity class="target" scale="10 10 10" rotation="90 0 0" position = "0 3 -2" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
+
     <a-entity bow-and-arrow  position="-0.5 1 -0.5"></a-entity bow-and-arrow>
 
     <!-- Immovable box -->
