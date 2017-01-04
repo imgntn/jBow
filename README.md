@@ -14,7 +14,7 @@ My ```rotate-toward-velocity``` component keeps the arrow pointed in the directi
 
 0.1
 - [x] reduce lag at shot (try a pool, try more specific selectors)
-- [x] when arrows collide, remove dynamic body and make them stick
+- [x] when arrows collide, return arrows to pool
 - [x] arrow rotation at shot should be front of bow
 - [x] why does arrow flip end over end?  because impulse position is middle? -- had to set fixedRotation since i'm doing it myself
 - [x] realistic trajectory -- rotate toward velocity. probably its own component. 
@@ -27,8 +27,17 @@ My ```rotate-toward-velocity``` component keeps the arrow pointed in the directi
 - [] add a cooldown otherwise we run through the whole pool of arrows.
 - [] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
 - [] arrows that disappear from sight never collide :/
-- [] string animations
+- [] string animations - meshline to back of arrow or to hand?
 - [] pull arrow back in bow to match force
 - [] how to better see the arrow during flight -- glow, particle trail?
 - [] animate targets
+- [] make arrow stick and then add cooldown delay before disappearing them
 - [] haptic pulse on item grab 
+- [] increase poolsize for sounds to allow them to overlap
+
+0.3 
+- [] fire arrows
+- [] enemy ai
+- [] tower
+- [] balloon spawner
+- [] multiplayer (syncing physics...??? hmm)

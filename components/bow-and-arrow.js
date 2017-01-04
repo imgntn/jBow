@@ -217,7 +217,6 @@ AFRAME.registerComponent('bow-and-arrow', {
     arrow.body.updateMassProperties();
     this.playSound('arrow_impact_sound', arrow.getAttribute('position'))
     var scene = document.getElementById('scene');
-    arrow.removeAttribute('dynamic-body');
 
     setTimeout(function removeArrow() {
       arrow.setAttribute('didCollide', 'no')
