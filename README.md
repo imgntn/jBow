@@ -6,7 +6,7 @@ You can pick it up using either hand.  Then, take aim and pull the trigger on yo
 
 I made modifications to the ```grab``` component to communicate with the bow about which hand was used to grab.  
 
-Since I reuse arrows from a pool to improve performance, I also made slight modifications to the physics system in ```a-frame-physics-system``` so that it would emit a 'body-played' when the dynamic 
+Since I reuse arrows from a pool to improve performance, I also made slight modifications to the physics system in ```a-frame-physics-system``` so that it would emit a 'body-played' when the dynamic body is synced.
 
 My ```rotate-toward-velocity``` component keeps the arrow pointed in the direction of travel.
 
