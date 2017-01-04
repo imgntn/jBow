@@ -5,11 +5,11 @@ todo:
 - [x] arrow rotation at shot should be front of bow
 - [] why does arrow flip end over end?  because impulse position is middle? 
 - [] realistic trajectory -- rotate toward velocity. probably its own component. 
-- [] add some targets
-- [] sound for nocking arrow
-- [] sound for shooting arrow
-- [] haptic pulse for shooting arrow
-- [] haptic pulse onhit
+- [x] add some targets
+- [x] sound for nocking arrow
+- [x] sound for shooting arrow
+- [x] haptic pulse for shooting arrow
+- [x] haptic pulse on item grab (doesnt seem to be actually in FF yet)
 
 
 https://vilbeyli.github.io/Simple-Trajectory-Motion-Example-Unity3D/

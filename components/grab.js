@@ -78,7 +78,6 @@ AFRAME.registerComponent('grab', {
 
     this.hitEl = undefined;
 
-
   },
 
   onHit: function(evt) {

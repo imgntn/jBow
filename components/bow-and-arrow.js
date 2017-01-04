@@ -13,7 +13,6 @@ AFRAME.registerComponent('bow-and-arrow', {
     entity.id = "bow";
     entity.setAttribute('obj-model', 'obj: #bow-obj; mtl: #bow-mtl')
     entity.setAttribute('scale', '0.1 0.1 0.1');
-    entity.setAttribute('rotation', '0 0 0 ');
     this.el.appendChild(entity);
 
     this.spawnArrow = this.spawnArrow.bind(this);
@@ -23,7 +22,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     var arrow = document.getElementById('preShotArrow');
     entity.appendChild(arrow);
     this.preShotArrow = arrow;
-    this.forceThreshold=0.1;
+    this.forceThreshold = 0.1;
   },
 
   play: function() {
@@ -61,8 +60,11 @@ AFRAME.registerComponent('bow-and-arrow', {
     }
     console.log('SPAWN ARROW EVT', evt)
 
-    this.preShotArrow.setAttribute('visible', true)
+    var bow = document.getElementById('bow');
 
+    var bowPosition = bow.object3D.getWorldPosition();
+    this.preShotArrow.setAttribute('visible', '')
+    this.playSound('draw_string_sound', bowPosition)
   },
 
   shootArrow: function(evt) {
@@ -74,7 +76,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     }
     var force = this.getShotForce();
     if (force < this.forceThreshold) {
-      this.destroyArrow();
+      this.hideArrow();
       return;
     }
 
@@ -95,44 +97,38 @@ AFRAME.registerComponent('bow-and-arrow', {
 
     arrow.addEventListener('body-loaded', function(e) {
       console.log('GOT A BODY NOW')
-    })    
+    })
 
     arrow.addEventListener('body-played', function(e) {
-          console.log('GOT A BODY PLAYED EVENT')
-          arrow.body.quaternion.copy(bowRotation)
-          var shotDirection = bow.object3D.getWorldDirection();
-          shotDirection.negate();
-          shotDirection.multiplyScalar(10);
-          console.log('shot direction is', shotDirection)
-          arrow.setAttribute('rotate-toward-velocity', '');
-          arrow.body.applyImpulse(
-            new CANNON.Vec3().copy(shotDirection),
-            new CANNON.Vec3().copy(this.object3D.getWorldPosition())
-          );
-       console.log('did apply impulse')
-    })    
+      console.log('GOT A BODY PLAYED EVENT')
+      arrow.body.quaternion.copy(bowRotation)
+      var shotDirection = bow.object3D.getWorldDirection();
+      shotDirection.negate();
+      shotDirection.multiplyScalar(10);
+      console.log('shot direction is', shotDirection)
+        // arrow.setAttribute('rotate-toward-velocity', '');
+
+      arrow.body.applyImpulse(
+        new CANNON.Vec3().copy(shotDirection),
+        new CANNON.Vec3().copy(this.object3D.getWorldPosition())
+      );
+      console.log('did apply impulse')
+    })
 
     var shotDirection = bow.object3D.getWorldDirection();
 
     shotDirection
       .negate()
-   
+
     var arrowHelper = new THREE.ArrowHelper(shotDirection, bowPosition, 5, 0x884400);
     scene.object3D.add(arrowHelper)
-     var bowRotation = bow.object3D.getWorldQuaternion();
-     arrow.play();
+    var bowRotation = bow.object3D.getWorldQuaternion();
+    arrow.play();
 
-  
-    // console.log('shot info:', {
-    //   shotDirection: shotDirection,
-    //   bowPosition: bowPosition,
-    //   force: force
-    // })
-    //arrow.play()
-    console.log('arrow body?3',arrow.body)
+    this.playSound('arrow_release_sound', bowPosition)
 
     this.vibrateController();
-    this.destroyArrow();
+    this.hideArrow();
 
   },
 
@@ -167,7 +163,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     return difference;
   },
 
-  destroyArrow: function() {
+  hideArrow: function() {
     //if shot is under minimum threshold for force, then just delete the arrow
     this.preShotArrow.setAttribute('visible', false)
 
@@ -199,8 +195,22 @@ AFRAME.registerComponent('bow-and-arrow', {
         }
       }
     }
+  },
+
+  playSound: function(soundId, position) {
+    if (typeof soundId !== 'string' || soundId === null) {
+      return;
+    }
+    if (position === null) {
+      return;
+    }
+    var sound = document.getElementById(soundId);
+    sound.setAttribute('position', position);
+    sound.components.sound.playSound()
+    console.log('playing sound', soundId, position)
 
   },
+
   handleArrowCollision: function(e, arrow) {
     console.log('Arrow has collided with body #' + e.detail.body.id);
 
@@ -215,6 +225,7 @@ AFRAME.registerComponent('bow-and-arrow', {
       arrow.setAttribute('didCollide', 'yes')
     }
 
+    this.playSound('arrow_impact_sound', arrow.getAttribute('position'))
     var scene = document.getElementById('scene');
     arrow.removeAttribute('rotate-toward-velocity')
     arrow.removeAttribute('dynamic-body')
@@ -235,9 +246,4 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.shootArrow();
   }
 
-
 });
-
-
-// quat example
-//http://jsfiddle.net/steveow/9a5465p6/12/
