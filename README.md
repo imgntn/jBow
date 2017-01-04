@@ -4,7 +4,7 @@ This project shows how to make a two-handed bow and arrow in webVR.
 
 You can pick it up using either hand.  Then, take aim and pull the trigger on your back hand.  Releasing the trigger shoots an arrow.  The force with which the arrow travels depends on the distance between your back hand and the bow.
 
-I made modifications to the ```grab``` component to communicate with the bow about which hand was used to grab.  
+I made modifications to the ```grab``` component to communicate with the bow about which hand was used to grab it.  
 
 Since I reuse arrows from a pool to improve performance, I also made slight modifications to the physics system in ```a-frame-physics-system``` so that it would emit a 'body-played' when the dynamic body is synced.
 
@@ -29,11 +29,14 @@ My ```rotate-toward-velocity``` component keeps the arrow pointed in the directi
 - [] arrows that disappear from sight never collide :/
 - [] string animations - meshline to back of arrow or to hand?
 - [] pull arrow back in bow to match force
+- [] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all .followed by a short slerp back to real controller rotation after firing.  ala the lab
 - [] how to better see the arrow during flight -- glow, particle trail?
 - [] animate targets
 - [] make arrow stick and then add cooldown delay before disappearing them
-- [] haptic pulse on item grab 
+- [] haptic pulse on bow grab 
 - [] increase poolsize for sounds to allow them to overlap
+- [] visual indicator of target hit
+
 
 0.3 
 - [] fire arrows
