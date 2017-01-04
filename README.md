@@ -21,14 +21,14 @@ My ```rotate-toward-velocity``` component keeps the arrow pointed in the directi
 - [x] add some targets
 - [x] sound for nocking arrow
 - [x] sound for shooting arrow
-- [x] haptic pulse for shooting arrow
-- [x] haptic pulse on item grab (doesnt seem to be actually in FF yet)
+- [x] haptic pulse for shooting arrow (doesnt seem to be supported anywhere yet)
 
 0.2
 - [] add a cooldown otherwise we run through the whole pool of arrows.
 - [] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
-- [] arrows that disappear from sight never collide
+- [] arrows that disappear from sight never collide :/
 - [] string animations
-- [] pull arrow back in bow
+- [] pull arrow back in bow to match force
 - [] how to better see the arrow during flight -- glow, particle trail?
 - [] animate targets
+- [] haptic pulse on item grab 
