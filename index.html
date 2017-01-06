@@ -15,7 +15,7 @@
 </head>
 <body>
 
-  <a-scene gridhelper id="scene" physics="debug:true" vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 12">
+  <a-scene gridhelper id="scene" physics="debug:true" vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 3;">
 
     <a-assets>
       <a-asset-item id="bow-obj" src="assets/models/sg-bow-2-obj/sg-bow-2-rotated.obj"></a-asset-item>
@@ -47,7 +47,7 @@
     <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.4;" position="-8 10 -18"></a-entity>
 
     <!-- bow and arrow -->
-    <a-plane color="yellow" static-body position="0 0 0" rotation="-90 0 0"  width="100" height="100"></a-plane>
+    <a-plane color="yellow" static-body position="0 0 0" rotation="-90 0 0"  width="1000" height="1000"></a-plane>
 
     <a-entity class="target"  static-body scale="10 10 10" rotation="0 90 0" position = "0 2 -10" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
     <a-entity class="target" static-body scale="10 10 10"  rotation="0 90 0" position = "0 4 -12" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>

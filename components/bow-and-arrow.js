@@ -24,6 +24,11 @@ AFRAME.registerComponent('bow-and-arrow', {
 
     this.forceThreshold = 0.25;
     this.shotMultiplier = 50;
+    this.cooldown= 500;
+    this.lastShot=Date.now();
+
+    this.zeroVec = new THREE.Vector3(0,0,0);
+    this.zeroQuat= new THREE.Quaternion(0,0,0,1);
   },
 
   play: function() {
@@ -57,7 +62,7 @@ AFRAME.registerComponent('bow-and-arrow', {
   },
 
   spawnArrow: function(evt) {
-    if (this.primaryHand === null || this.primaryHand === evt.detail.hand) {
+    if (this.canShoot===false|| this.primaryHand === null || this.primaryHand === evt.detail.hand) {
       return;
     }
 
@@ -66,17 +71,23 @@ AFRAME.registerComponent('bow-and-arrow', {
     var bowPosition = bow.object3D.getWorldPosition();
     this.preShotArrow.setAttribute('visible', '')
     this.playSound('draw_string_sound', bowPosition)
+
   },
 
   shootArrow: function(evt) {
 
     var _t = this;
+    
+    var sinceLastShot = Math.abs(this.lastShot-Date.now())
+
     //dont shoot if its the trigger on the primary hand
-    if (this.primaryHand === null || this.primaryHand === evt.detail.hand) {
+    if (sinceLastShot<this.cooldown|| this.primaryHand === null || this.primaryHand === evt.detail.hand) {
       return;
     }
+
     var force = this.getShotForce();
     if (force < this.forceThreshold) {
+      this.enableShot();
       this.hideArrow();
       return;
     }
@@ -97,6 +108,19 @@ AFRAME.registerComponent('bow-and-arrow', {
     })
 
     arrow.addEventListener('body-played', function(e) {
+     
+      // console.log('initPosition',arrow.body.initPosition);
+      // console.log('initQuaternion',arrow.body.initQuaternion);
+      // console.log('initVelocity',arrow.body.initVelocity);
+      // console.log('initAngularVelocity',arrow.body.initAngularVelocity);
+      console.log('arrowbody',arrow.body.shapes)
+
+
+      // arrow.body.initPosition.copy(_t.zeroVec)
+      // arrow.body.initQuaternion.copy(_t.zeroQuat)
+      // arrow.body.initVelocity.copy(_t.zeroVec)
+      // arrow.body.initAngularVelocity.copy(_t.zeroVec)
+
       arrow.body.fixedRotation = true;
       arrow.body.updateMassProperties();
       var bowRotation = bow.object3D.getWorldQuaternion();
@@ -109,7 +133,12 @@ AFRAME.registerComponent('bow-and-arrow', {
         new CANNON.Vec3().copy(shotDirection),
         new CANNON.Vec3().copy(this.object3D.getWorldPosition())
       );
+   
+     //console.log('shotinfo2',arrow.body)
+
+
     })
+
 
     //for debugging arrow shot direction
     // var arrowHelper = new THREE.ArrowHelper(shotDirection, bowPosition, 5, 0x884400);
@@ -121,7 +150,7 @@ AFRAME.registerComponent('bow-and-arrow', {
 
     this.vibrateController();
     this.hideArrow();
-
+    this.lastShot=Date.now();
   },
 
   getShotForce: function() {
@@ -207,19 +236,19 @@ AFRAME.registerComponent('bow-and-arrow', {
     // so gotta set a timeout
     // but many collisions can happen before that timeout.
     if (arrow.getAttribute('didCollide') === 'yes') {
-      console.log('already collided arrow')
       return
     } else {
       arrow.setAttribute('didCollide', 'yes')
     }
-    arrow.removeAttribute('rotate-toward-velocity');
-    arrow.body.fixedRotation = true;
-    arrow.body.updateMassProperties();
+
+    // arrow.removeAttribute('rotate-toward-velocity');
     this.playSound('arrow_impact_sound', arrow.getAttribute('position'))
     var scene = document.getElementById('scene');
 
     setTimeout(function removeArrow() {
+      arrow.setAttribute('shape:box')
       arrow.setAttribute('didCollide', 'no')
+      console.log('ARROW AT REMOVE',arrow)
       scene.components.pool__arrow.returnEntity(arrow);
     }, 0)
 

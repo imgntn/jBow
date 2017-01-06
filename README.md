@@ -12,6 +12,8 @@ My ```rotate-toward-velocity``` component keeps the arrow pointed in the directi
 
 # todo:
 
+bugs:
+
 0.1
 - [x] reduce lag at shot (try a pool, try more specific selectors)
 - [x] when arrows collide, return arrows to pool
@@ -24,21 +26,25 @@ My ```rotate-toward-velocity``` component keeps the arrow pointed in the directi
 - [x] haptic pulse for shooting arrow (doesnt seem to be supported anywhere yet)
 
 0.2
-- [] add a cooldown otherwise we run through the whole pool of arrows.
-- [] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
-- [] arrows that disappear from sight never collide :/
+- [x] add a cooldown otherwise we run through the whole pool of arrows.
+- [x] arrows that disappear from sight never collide -- it wasn't that they disappearede
+- [] once you're reusing an arrow from the pool, it gets double the force every time.  probably because we're reusing the physics body and it isnt fresh. :/
+- [] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all .followed by a short slerp back to real controller rotation after firing.  ala the lab
 - [] string animations - meshline to back of arrow or to hand?
 - [] pull arrow back in bow to match force
-- [] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all .followed by a short slerp back to real controller rotation after firing.  ala the lab
-- [] how to better see the arrow during flight -- glow, particle trail?
+- [] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
+
+
+0.3
 - [] animate targets
+- [] how to better see the arrow during flight -- glow, particle trail?
 - [] make arrow stick and then add cooldown delay before disappearing them
 - [] haptic pulse on bow grab 
 - [] increase poolsize for sounds to allow them to overlap
 - [] visual indicator of target hit
 
 
-0.3 
+0.4
 - [] fire arrows
 - [] enemy ai
 - [] tower
