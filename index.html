@@ -7,10 +7,11 @@
   <script src="aframe-master.min.js"></script>
   <script src="components/aabb-collider.js"></script>
   <script src="components/aframe-gridhelper-component.min.js"></script>
-    <script src="components/aframe-meshline-component.min.js"></script>
+  <script src="components/aframe-meshline-component.min.js"></script>
   <script src="components/grab.js"></script>
   <script src="components/bow-and-arrow.js"></script>
   <script src="components/rotate-toward-velocity.js"></script>
+  <script src="components/poissondisc-forest.js"></script>
   <script src="shaders/skyGradient.js"></script>
   <script src="aframe-physics-system.js"></script>
 </head>
@@ -25,6 +26,10 @@
       <a-asset-item id="arrow-mtl" src="assets/models/low-poly-arrow-obj/low-poly-arrow.mtl"></a-asset-item>
       <a-asset-item id="target-obj" src="assets/models/target/target.obj"></a-asset-item>
       <a-asset-item id="target-mtl" src="assets/models/target/target.mtl"></a-asset-item>
+      <a-asset-item id="tree-obj" src="assets/models/tree-obj/tree.obj"></a-asset-item>
+      <a-asset-item id="tree-mtl" src="assets/models/tree-obj/tree.mtl"></a-asset-item>
+      <a-asset-item id="tree-toon-obj" src="assets/models/tree-toon-obj/tree-toon.obj"></a-asset-item>
+      <a-asset-item id="tree-toon-mtl" src="assets/models/tree-toon-obj/tree-toon.mtl"></a-asset-item>
       <a-mixin id="arrowpool" dynamic-body="shape:box" scale="0.005 0.005 0.005" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"></a-mixin>
       <audio id="arrow_release" src="assets/sounds/arrow_release.mp3">
       <audio id="arrow_impact" src="assets/sounds/arrow_impact.mp3">
@@ -68,6 +73,7 @@
     <!-- Dynamic box -->
     <a-box dynamic-body color="blue" position="5 0.5 0" width="1" height="1" depth="1"></a-box>
 
+    <a-entity poissondisc-forest></a-entity>
     <!-- Hands -->
 
     <a-entity id="leftHand" hand-controls="left" aabb-collider="objects:#bow;" grab></a-entity>

@@ -5,12 +5,11 @@
 AFRAME.registerComponent('bow-and-arrow', {
   // schema: {},
   init: function() {
-    this.arrow = null;
     this.primaryHand = null;
 
     var entity = document.createElement('a-entity');
     entity.id = "bow";
-    entity.setAttribute('obj-model', 'obj: #bow-obj; mtl: #bow-mtl')
+    entity.setAttribute('obj-model', 'obj: #bow-obj; mtl: #bow-mtl');
     entity.setAttribute('scale', '0.1 0.1 0.1');
     this.el.appendChild(entity);
     this.bow = entity;
@@ -19,6 +18,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.shootArrow = this.shootArrow.bind(this);
     this.setPrimaryHand = this.setPrimaryHand.bind(this);
     this.freeHands = this.freeHands.bind(this);
+    
     var arrow = document.getElementById('preShotArrow');
     entity.appendChild(arrow);
     this.preShotArrow = arrow;
@@ -34,20 +34,22 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.offsets = {
       bowTop: {
         x: 0,
-        y: 0,
+        y: 1,
         z: 0
       },
       bowBottom: {
         x: 0,
-        y: 0,
+        y: -1,
         z: 0
-      }
+      },
       arrowBack: {
         x: 0,
         y: 0,
-        z: 0
+        z: -9.5
       }
     }
+
+    this.bowLine=null;
 
   },
 
@@ -90,7 +92,7 @@ AFRAME.registerComponent('bow-and-arrow', {
 
     var bowPosition = bow.object3D.getWorldPosition();
     this.preShotArrow.setAttribute('visible', '')
-    this.playSound('draw_string_sound', bowPosition)
+    this.playSound('draw_string_sound', bowPosition);
     this.aiming = true;
   },
 
@@ -187,7 +189,7 @@ AFRAME.registerComponent('bow-and-arrow', {
       handSelector = '#leftHand'
     }
 
-    var arrowHand = document.getElementById(handSelector).object3D
+    var arrowHand = document.querySelector(handSelector).object3D;
 
     var matrixWorld = arrowHand.matrixWorld;
     var arrowHandPosition = new THREE.Vector3();
@@ -277,6 +279,7 @@ AFRAME.registerComponent('bow-and-arrow', {
 
   tick: function() {
 
+    //need to debounce this because the query selectors cant keep up
     if (this.aiming === true) {
       this.moveArrowBack();
       this.updateMeshLine();
@@ -288,12 +291,12 @@ AFRAME.registerComponent('bow-and-arrow', {
       this.bowLine = document.getElementById('bowLine')
     }
 
-    var topOfBow;
-    var backOfArrow;
-    var bottomOfBow;
+    var topOfBow=this.offsets.bowTop;
+    var backOfArrow=this.offsets.arrowBack;
+    var bottomOfBow=this.offsets.bowBottom;
 
-    var pathString = topOfBow.x + topOfBow.y + topOfBow.z + "," + backOfArrow.x + backOfArrow.y + backOfArrow.z + "," + bottomOfBow.x + bottomOfBow.y + bottomOfBow.z;
-
+    var pathString = topOfBow.x +" "+ topOfBow.y + " "+topOfBow.z + "," + backOfArrow.x +" "+backOfArrow.y +" "+ backOfArrow.z + "," + bottomOfBow.x +" "+ bottomOfBow.y +" "+ bottomOfBow.z;
+    console.log('pathString,pathString')
     this.bowLine.setAttribute('meshline', 'path', pathString);
 
   },
