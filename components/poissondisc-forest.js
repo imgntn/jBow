@@ -1,6 +1,8 @@
 /* global AFRAME, THREE */
 
 /**
+awesome poisson function from https://bl.ocks.org/mbostock/19168c663618b7f07158
+
 todo: 
 merge geometries
 test physics bodies

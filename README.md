@@ -29,13 +29,13 @@ bugs:
 0.2
 - [x] add a cooldown otherwise we run through the whole pool of arrows.
 - [x] once you're reusing an arrow from the pool, it gets double the force every time.  probably because we're reusing the physics body and it isnt fresh. 
+- [x] add some trees at various locations to give some depth 
+- [x] poisson disc for tree distribution
+- [] texture the ground plane
 - [] string animations - meshline to back of arrow 
 - [] pull arrow back in bow to match force
 - [] remove string from arrow model
 - [] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all. followed by a short slerp back to real controller rotation after firing.  ala the lab
-- [] texture the ground plane
-- [x] add some trees at various locations to give some depth 
-- [x] poisson disc for tree distribution
 
 0.3
 - [] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
