@@ -1,7 +1,10 @@
 /* global AFRAME, THREE */
 
 /**
- 
+todo: 
+merge geometries
+test physics bodies
+maybe work in local object space so that the whole thing can be 000 centered 
  */
 AFRAME.registerComponent('poissondisc-forest', {
     schema: {
