@@ -24,7 +24,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.preShotArrow = arrow;
 
     this.forceThreshold = 0.25;
-    this.shotMultiplier = 50;
+    this.shotMultiplier = 85;
     this.cooldown = 500;
     this.lastShot = Date.now();
 
@@ -278,7 +278,7 @@ AFRAME.registerComponent('bow-and-arrow', {
   },
 
   tick: function() {
-
+    return
     //need to debounce this because the query selectors cant keep up
     if (this.aiming === true) {
       this.moveArrowBack();

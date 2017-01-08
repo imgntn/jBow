@@ -28,7 +28,7 @@ bugs:
 
 0.2
 - [x] add a cooldown otherwise we run through the whole pool of arrows.
-- [] once you're reusing an arrow from the pool, it gets double the force every time.  probably because we're reusing the physics body and it isnt fresh. :/
+- [x] once you're reusing an arrow from the pool, it gets double the force every time.  probably because we're reusing the physics body and it isnt fresh. 
 - [] string animations - meshline to back of arrow 
 - [] pull arrow back in bow to match force
 - [] remove string from arrow model
