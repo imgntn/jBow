@@ -22,15 +22,13 @@ AFRAME.registerComponent('poissondisc-forest', {
             type: 'int',
             default: 30
         },
-        spacing:{
-            type:'int',
-            default:5
+        spacing: {
+            type: 'int',
+            default: 5
         }
     },
 
     init: function() {
-        console.log('should make a forest',this)
-
         //create a buncha trees on a plane
         this.sampler = this.poissonDiscSampler(this.data.width, this.data.length, this.data.spacing);
         var treeCount;
@@ -39,21 +37,17 @@ AFRAME.registerComponent('poissondisc-forest', {
         for (treeCount = 0; treeCount < this.data.samplecount; treeCount++) {
             //xy position
             var sample = this.sampler();
-            if( sample===undefined){
+            if (sample === undefined) {
                 return;
             }
-            console.log('sample is:',sample)
+            // console.log('sample is:',sample)
             var tree = this.createSingleTree();
-            var treePosition = new THREE.Vector3(sample[0],0,sample[1]);
-            console.log('treePosition',treePosition)
-            tree.setAttribute('position',treePosition);
+            var treePosition = new THREE.Vector3(sample[0], 0, sample[1]);
+            // console.log('treePosition',treePosition)
+            tree.setAttribute('position', treePosition);
             this.el.appendChild(tree);
             this.trees.push(tree);
         }
-
-    },
-
-    tick: function(time, delta) {
 
     },
 
@@ -65,10 +59,10 @@ AFRAME.registerComponent('poissondisc-forest', {
         tree.class = "tree";
         tree.setAttribute('obj-model', treeString);
         var width = Math.random();
-        var length=Math.random();
-        var height=Math.random()*10;
-        console.log('wlh',width,length,height)
-        tree.setAttribute('scale', '0.5'+" "+height+" "+'0.5');
+        var length = Math.random();
+        var height = Math.random() * 10;
+        console.log('wlh', width, length, height)
+        tree.setAttribute('scale', '0.5' + " " + height + " " + '0.5');
         //tree.setAttribute('scale','1 1 1');
 
         return tree;
