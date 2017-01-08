@@ -7,6 +7,7 @@
   <script src="aframe-master.min.js"></script>
   <script src="components/aabb-collider.js"></script>
   <script src="components/aframe-gridhelper-component.min.js"></script>
+    <script src="components/aframe-meshline-component.min.js"></script>
   <script src="components/grab.js"></script>
   <script src="components/bow-and-arrow.js"></script>
   <script src="components/rotate-toward-velocity.js"></script>
@@ -34,6 +35,7 @@
     <a-sound id="arrow_release_sound" src="#arrow_release"></a-sound>
     <a-sound id="arrow_impact_sound"  src="#arrow_impact"></a-sound>
     <a-sound id="draw_string_sound"  src="#draw_string"></a-sound>
+    
     <!-- Camera -->
     <a-entity camera look-controls></a-entity>
 
@@ -46,16 +48,19 @@
 
     <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.4;" position="-8 10 -18"></a-entity>
 
-    <!-- bow and arrow -->
     <a-plane color="yellow" static-body position="0 0 0" rotation="-90 0 0"  width="1000" height="1000"></a-plane>
 
     <a-entity class="target"  static-body scale="10 10 10" rotation="0 90 0" position = "0 2 -10" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
     <a-entity class="target" static-body scale="10 10 10"  rotation="0 90 0" position = "0 4 -12" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
     <a-entity class="target" static-body scale="10 10 10" rotation="0 90 0" position = "0 6 -14" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
 
+    <!-- bow and arrow -->
+
     <a-entity id="preShotArrow" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"position="0 0 0 " scale="0.05 0.05 0.05" visible="false"></a-entity>
 
     <a-entity bow-and-arrow  position="-0.5 1 -0.5"></a-entity bow-and-arrow>
+
+    <a-entity id="bowLine" meshline="lineWidth: 20; path: 0 0 0 , 1 1 1; color: #E20049"></a-entity>
 
     <!-- Immovable box -->
     <a-box static-body color="red" position="0 0.5 -5" width="3" height="1" depth="1"></a-box>

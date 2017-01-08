@@ -13,6 +13,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     entity.setAttribute('obj-model', 'obj: #bow-obj; mtl: #bow-mtl')
     entity.setAttribute('scale', '0.1 0.1 0.1');
     this.el.appendChild(entity);
+    this.bow = entity;
 
     this.spawnArrow = this.spawnArrow.bind(this);
     this.shootArrow = this.shootArrow.bind(this);
@@ -24,11 +25,30 @@ AFRAME.registerComponent('bow-and-arrow', {
 
     this.forceThreshold = 0.25;
     this.shotMultiplier = 50;
-    this.cooldown= 500;
-    this.lastShot=Date.now();
+    this.cooldown = 500;
+    this.lastShot = Date.now();
 
-    this.zeroVec = new THREE.Vector3(0,0,0);
-    this.zeroQuat= new THREE.Quaternion(0,0,0,1);
+    this.zeroVec = new THREE.Vector3(0, 0, 0);
+    this.zeroQuat = new THREE.Quaternion(0, 0, 0, 1);
+
+    this.offsets = {
+      bowTop: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      bowBottom: {
+        x: 0,
+        y: 0,
+        z: 0
+      }
+      arrowBack: {
+        x: 0,
+        y: 0,
+        z: 0
+      }
+    }
+
   },
 
   play: function() {
@@ -62,26 +82,26 @@ AFRAME.registerComponent('bow-and-arrow', {
   },
 
   spawnArrow: function(evt) {
-    if (this.canShoot===false|| this.primaryHand === null || this.primaryHand === evt.detail.hand) {
+    if (this.canShoot === false || this.primaryHand === null || this.primaryHand === evt.detail.hand) {
       return;
     }
 
-    var bow = document.getElementById('bow');
+    var bow = this.bow;
 
     var bowPosition = bow.object3D.getWorldPosition();
     this.preShotArrow.setAttribute('visible', '')
     this.playSound('draw_string_sound', bowPosition)
-
+    this.aiming = true;
   },
 
   shootArrow: function(evt) {
 
     var _t = this;
-    
-    var sinceLastShot = Math.abs(this.lastShot-Date.now())
+
+    var sinceLastShot = Math.abs(this.lastShot - Date.now());
 
     //dont shoot if its the trigger on the primary hand
-    if (sinceLastShot<this.cooldown|| this.primaryHand === null || this.primaryHand === evt.detail.hand) {
+    if (sinceLastShot < this.cooldown || this.primaryHand === null || this.primaryHand === evt.detail.hand) {
       return;
     }
 
@@ -89,40 +109,34 @@ AFRAME.registerComponent('bow-and-arrow', {
     if (force < this.forceThreshold) {
       this.enableShot();
       this.hideArrow();
+      this.aiming = false;
       return;
     }
 
     var scene = document.getElementById('scene');
 
-    var bow = document.getElementById('bow');
+    var bow = this.bow;
 
     var bowPosition = bow.object3D.getWorldPosition();
 
     var arrow = scene.components.pool__arrow.requestEntity();
 
     arrow.className = "arrow";
-    arrow.setAttribute('position', bowPosition);
 
     arrow.addEventListener('collide', function(e) {
       _t.handleArrowCollision(e, arrow);
     })
 
     arrow.addEventListener('body-played', function(e) {
-     
-      // console.log('initPosition',arrow.body.initPosition);
-      // console.log('initQuaternion',arrow.body.initQuaternion);
-      // console.log('initVelocity',arrow.body.initVelocity);
-      // console.log('initAngularVelocity',arrow.body.initAngularVelocity);
-      console.log('arrowbody',arrow.body.shapes)
 
+      console.log('arrowbody', arrow.body.shapes)
 
-      // arrow.body.initPosition.copy(_t.zeroVec)
-      // arrow.body.initQuaternion.copy(_t.zeroQuat)
-      // arrow.body.initVelocity.copy(_t.zeroVec)
-      // arrow.body.initAngularVelocity.copy(_t.zeroVec)
-
+      arrow.body.velocity.copy(_t.zeroVec);
+      arrow.body.angularVelocity.copy(_t.zeroVec);
       arrow.body.fixedRotation = true;
       arrow.body.updateMassProperties();
+      arrow.body.position.copy(bowPosition);
+      arrow.setAttribute('position', bowPosition);
       var bowRotation = bow.object3D.getWorldQuaternion();
       arrow.body.quaternion.copy(bowRotation);
       var shotDirection = bow.object3D.getWorldDirection();
@@ -133,8 +147,8 @@ AFRAME.registerComponent('bow-and-arrow', {
         new CANNON.Vec3().copy(shotDirection),
         new CANNON.Vec3().copy(this.object3D.getWorldPosition())
       );
-   
-     //console.log('shotinfo2',arrow.body)
+
+      //console.log('shotinfo2',arrow.body)
 
 
     })
@@ -150,13 +164,14 @@ AFRAME.registerComponent('bow-and-arrow', {
 
     this.vibrateController();
     this.hideArrow();
-    this.lastShot=Date.now();
+    this.lastShot = Date.now();
+    this.aiming = false();
   },
 
   getShotForce: function() {
     //measure the distance between the arrow hand and the nock
 
-    var nock = document.querySelector("#bow");
+    var nock = this.bow;
     var nockObj = nock.object3D;
 
     var matrixWorld = nockObj.matrixWorld;
@@ -172,7 +187,7 @@ AFRAME.registerComponent('bow-and-arrow', {
       handSelector = '#leftHand'
     }
 
-    var arrowHand = document.querySelector(handSelector).object3D
+    var arrowHand = document.getElementById(handSelector).object3D
 
     var matrixWorld = arrowHand.matrixWorld;
     var arrowHandPosition = new THREE.Vector3();
@@ -248,7 +263,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     setTimeout(function removeArrow() {
       arrow.setAttribute('shape:box')
       arrow.setAttribute('didCollide', 'no')
-      console.log('ARROW AT REMOVE',arrow)
+      console.log('ARROW AT REMOVE', arrow)
       scene.components.pool__arrow.returnEntity(arrow);
     }, 0)
 
@@ -259,5 +274,35 @@ AFRAME.registerComponent('bow-and-arrow', {
     // e.detail.contact; // Stats about the collision (CANNON.ContactEquation).
     // e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
   },
+
+  tick: function() {
+
+    if (this.aiming === true) {
+      this.moveArrowBack();
+      this.updateMeshLine();
+    }
+  },
+
+  updateMeshLine: function() {
+    if (this.bowLine === null) {
+      this.bowLine = document.getElementById('bowLine')
+    }
+
+    var topOfBow;
+    var backOfArrow;
+    var bottomOfBow;
+
+    var pathString = topOfBow.x + topOfBow.y + topOfBow.z + "," + backOfArrow.x + backOfArrow.y + backOfArrow.z + "," + bottomOfBow.x + bottomOfBow.y + bottomOfBow.z;
+
+    this.bowLine.setAttribute('meshline', 'path', pathString);
+
+  },
+
+  moveArrowBack: function() {
+    var arrowPosition = this.preShotArrow.getAttribute('position');
+    var force = this.getShotForce();
+    arrowPosition.z = -force;
+    this.preShotArrow.setAttribute('position', arrowPosition);
+  }
 
 });

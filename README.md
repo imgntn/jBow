@@ -24,25 +24,23 @@ bugs:
 - [x] sound for nocking arrow
 - [x] sound for shooting arrow
 - [x] haptic pulse for shooting arrow (doesnt seem to be supported anywhere yet)
+- [x] extend ground otherwise out of sight arrows might never collide
 
 0.2
 - [x] add a cooldown otherwise we run through the whole pool of arrows.
-- [x] arrows that disappear from sight never collide -- it wasn't that they disappearede
 - [] once you're reusing an arrow from the pool, it gets double the force every time.  probably because we're reusing the physics body and it isnt fresh. :/
-- [] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all .followed by a short slerp back to real controller rotation after firing.  ala the lab
-- [] string animations - meshline to back of arrow or to hand?
+- [] string animations - meshline to back of arrow 
 - [] pull arrow back in bow to match force
-- [] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
-
+- [] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all .followed by a short slerp back to real controller rotation after firing.  ala the lab
 
 0.3
+- [] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
 - [] animate targets
 - [] how to better see the arrow during flight -- glow, particle trail?
 - [] make arrow stick and then add cooldown delay before disappearing them
 - [] haptic pulse on bow grab 
 - [] increase poolsize for sounds to allow them to overlap
 - [] visual indicator of target hit
-
 
 0.4
 - [] fire arrows
