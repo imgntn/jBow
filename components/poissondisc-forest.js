@@ -34,8 +34,6 @@ AFRAME.registerComponent('poissondisc-forest', {
         var treeCount;
         this.trees = [];
 
-        var forest = document.createElement('a-entity');
-
         for (treeCount = 0; treeCount < this.data.samplecount; treeCount++) {
             //xy position
             var sample = this.sampler();
@@ -46,11 +44,8 @@ AFRAME.registerComponent('poissondisc-forest', {
             var treePosition = new THREE.Vector3(sample[0], 0, sample[1]);
             tree.setAttribute('position', treePosition);
             this.el.appendChild(tree)
-            // forest.appendChild(tree);
             this.trees.push(tree);
         }
-
-        this.el.appendChild(forest);
 
     },
 
@@ -60,11 +55,12 @@ AFRAME.registerComponent('poissondisc-forest', {
 
         var tree = document.createElement('a-entity');
         tree.setAttribute('obj-model', treeString);
-        var width = Math.random();
-        var length = Math.random();
-        var height = Math.random() * 10;
-        // console.log('wlh', width, length, height)
-        tree.setAttribute('scale', '0.75' + " " + height + " " + '0.75');
+        var height = 1 + Math.random() * 9;
+        tree.setAttribute('scale', {
+            x: 0.75,
+            y: height,
+            z: 0.75
+        });
 
         return tree;
 
