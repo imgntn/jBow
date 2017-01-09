@@ -1,7 +1,7 @@
 /* global AFRAME, THREE */
 
 /**
-awesome poisson function from https://bl.ocks.org/mbostock/19168c663618b7f07158
+based on an awesome poisson function from https://bl.ocks.org/mbostock/19168c663618b7f07158
 
 todo: 
 merge geometries
@@ -12,7 +12,7 @@ AFRAME.registerComponent('poissondisc-forest', {
     schema: {
         samplecount: {
             type: 'int',
-            default: 60
+            default: 30
         },
         width: {
             type: 'int',
@@ -34,20 +34,23 @@ AFRAME.registerComponent('poissondisc-forest', {
         var treeCount;
         this.trees = [];
 
+        var forest = document.createElement('a-entity');
+
         for (treeCount = 0; treeCount < this.data.samplecount; treeCount++) {
             //xy position
             var sample = this.sampler();
             if (sample === undefined) {
                 return;
             }
-            // console.log('sample is:',sample)
             var tree = this.createSingleTree();
             var treePosition = new THREE.Vector3(sample[0], 0, sample[1]);
-            // console.log('treePosition',treePosition)
             tree.setAttribute('position', treePosition);
-            this.el.appendChild(tree);
+            this.el.appendChild(tree)
+            // forest.appendChild(tree);
             this.trees.push(tree);
         }
+
+        this.el.appendChild(forest);
 
     },
 
@@ -56,14 +59,12 @@ AFRAME.registerComponent('poissondisc-forest', {
         var treeString = treeString || "obj: #tree-toon-obj; mtl: #tree-toon-mtl";
 
         var tree = document.createElement('a-entity');
-        tree.class = "tree";
         tree.setAttribute('obj-model', treeString);
         var width = Math.random();
         var length = Math.random();
         var height = Math.random() * 10;
-        console.log('wlh', width, length, height)
-        tree.setAttribute('scale', '0.5' + " " + height + " " + '0.5');
-        //tree.setAttribute('scale','1 1 1');
+        // console.log('wlh', width, length, height)
+        tree.setAttribute('scale', '0.75' + " " + height + " " + '0.75');
 
         return tree;
 

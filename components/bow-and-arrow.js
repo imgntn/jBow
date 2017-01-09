@@ -8,7 +8,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.primaryHand = null;
 
     var entity = document.createElement('a-entity');
-    entity.id = "bow";
+    entity.id="bow";
     entity.setAttribute('obj-model', 'obj: #bow-obj; mtl: #bow-mtl');
     entity.setAttribute('scale', '0.1 0.1 0.1');
     this.el.appendChild(entity);
@@ -45,7 +45,7 @@ AFRAME.registerComponent('bow-and-arrow', {
       arrowBack: {
         x: 0,
         y: 0,
-        z: -9.5
+        z: -0.095
       }
     }
 
@@ -109,7 +109,6 @@ AFRAME.registerComponent('bow-and-arrow', {
 
     var force = this.getShotForce();
     if (force < this.forceThreshold) {
-      this.enableShot();
       this.hideArrow();
       this.aiming = false;
       return;
@@ -122,6 +121,10 @@ AFRAME.registerComponent('bow-and-arrow', {
     var bowPosition = bow.object3D.getWorldPosition();
 
     var arrow = scene.components.pool__arrow.requestEntity();
+    
+    if(arrow===undefined){
+      return;
+    }
 
     arrow.className = "arrow";
 
@@ -167,7 +170,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.vibrateController();
     this.hideArrow();
     this.lastShot = Date.now();
-    this.aiming = false();
+    this.aiming = false;
   },
 
   getShotForce: function() {
@@ -261,11 +264,9 @@ AFRAME.registerComponent('bow-and-arrow', {
     // arrow.removeAttribute('rotate-toward-velocity');
     this.playSound('arrow_impact_sound', arrow.getAttribute('position'))
     var scene = document.getElementById('scene');
-
-    setTimeout(function removeArrow() {
-      arrow.setAttribute('shape:box')
+   
       arrow.setAttribute('didCollide', 'no')
-      console.log('ARROW AT REMOVE', arrow)
+    setTimeout(function removeArrow() {
       scene.components.pool__arrow.returnEntity(arrow);
     }, 0)
 
@@ -295,9 +296,13 @@ AFRAME.registerComponent('bow-and-arrow', {
     var backOfArrow=this.offsets.arrowBack;
     var bottomOfBow=this.offsets.bowBottom;
 
-    var pathString = topOfBow.x +" "+ topOfBow.y + " "+topOfBow.z + "," + backOfArrow.x +" "+backOfArrow.y +" "+ backOfArrow.z + "," + bottomOfBow.x +" "+ bottomOfBow.y +" "+ bottomOfBow.z;
-    console.log('pathString,pathString')
-    this.bowLine.setAttribute('meshline', 'path', pathString);
+    // var pathString = topOfBow.x +" "+ topOfBow.y + " "+topOfBow.z + "," + backOfArrow.x +" "+backOfArrow.y +" "+ backOfArrow.z + "," + bottomOfBow.x +" "+ bottomOfBow.y +" "+ bottomOfBow.z;
+    // console.log('pathString,pathString')
+    this.bowLine.setAttribute('meshline', 'path', [
+      topOfBow,
+      backOfArrow,
+      bottomOfBow
+      ]);
 
   },
 
