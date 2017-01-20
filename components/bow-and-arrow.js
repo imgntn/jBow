@@ -98,7 +98,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     var bow = this.bow;
 
     var bowPosition = bow.object3D.getWorldPosition();
-    this.preShotArrow.setAttribute('visible', '')
+    this.preShotArrow.setAttribute('visible', '');
     this.playSound('draw_string_sound', bowPosition);
     this.aiming = true;
   },
@@ -268,8 +268,9 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.playSound('arrow_impact_sound', arrow.getAttribute('position'))
     var scene = document.getElementById('scene');
 
-    arrow.setAttribute('didCollide', 'no')
+
     setTimeout(function removeArrow() {
+     arrow.setAttribute('didCollide', 'no');
       scene.components.pool__arrow.returnEntity(arrow);
     }, 0)
 
@@ -305,22 +306,18 @@ AFRAME.registerComponent('bow-and-arrow', {
   },
 
   createMeshLine: function() {
-    if (this.bowLine === null) {
+    var bowLine = document.createElement('a-entity');
+    bowLine.id = 'bowLine';
 
-      var bowLine = document.createElement('a-entity');
-      bowLine.id = 'bowLine';
+    bowLine.setAttribute('meshline', {
+      lineWidth: '20',
+      path: this.getBowLinePathString(),
+      color: "#E20049"
+    })
 
-      bowLine.setAttribute('meshline', {
-        lineWidth: '20',
-        path: this.getBowLinePathString(),
-        color: "#E20049"
-      })
-
-      this.bow.append(bowLine);
-      this.bowLine = bowLine;
-      return;
-    }
-
+    this.bow.append(bowLine);
+    this.bowLine = bowLine;
+    return;
   },
 
   updateMeshLine: function() {
