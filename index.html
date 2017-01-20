@@ -60,9 +60,8 @@
 
     <a-entity id="preShotArrow" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"position="0 0 0 " scale="0.05 0.05 0.05" visible="false"></a-entity>
 
-    <a-entity bow-and-arrow  position="-0.5 1 -0.5"></a-entity>
-
-    <a-entity id="bowLine" meshline="lineWidth: 20; path: 0 0 0 , 1 1 1; color: #E20049"></a-entity>
+    <a-entity id="bowContainer" bow-and-arrow position="-0.5 1 -0.5">
+    </a-entity>
     
     <!-- Hands -->
 
@@ -78,8 +77,8 @@
     <a-box static-body color="red" position="0 0.5 -5" width="3" height="1" depth="1"></a-box>
     <a-box dynamic-body color="blue" position="5 0.5 0" width="1" height="1" depth="1"></a-box>
 
-    <a-entity poissondisc-forest position="-15 0 -15"></a-entity>
-
+<!--     <a-entity poissondisc-forest position="-15 0 -15"></a-entity>
+ -->
   </a-scene>
   <script>
 

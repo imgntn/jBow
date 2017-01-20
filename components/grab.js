@@ -27,6 +27,8 @@ AFRAME.registerComponent('grab', {
     el.addEventListener('pointdown', this.onGripOpen);
     el.addEventListener('triggerdown', this.onTriggerDown);
     el.addEventListener('triggerup', this.onTriggerUp);
+    el.addEventListener('disableRotation', this.onDisableRotation);
+    el.addEventListener('enableRotation', this.onEnableRotation);
 
   },
 
@@ -41,6 +43,8 @@ AFRAME.registerComponent('grab', {
     el.removeEventListener('pointdown', this.onGripOpen);
     el.removeEventListener('triggerdown', this.onTriggerDown);
     el.removeEventListener('triggerup', this.onTriggerUp);
+    el.removeEventListener('disableRotation', this.onDisableRotation);
+    el.removeEventListener('enableRotation', this.onEnableRotation);
   },
 
   onTriggerUp: function(evt) {
@@ -96,30 +100,34 @@ AFRAME.registerComponent('grab', {
       hand: hand
     })
   },
-
+  rotateHeldObject:true,
   tick: function() {
     var hitEl = this.hitEl;
     var position;
     if (!hitEl) {
       return;
     }
+
     this.updatePositionDelta(hitEl);
+
     position = hitEl.getAttribute('position');
+    
     hitEl.setAttribute('position', {
       x: position.x + this.deltaPosition.x,
       y: position.y + this.deltaPosition.y,
       z: position.z + this.deltaPosition.z
     });
 
-
     var handRotationQuat = this.el.object3D.quaternion;
     var bowRotationQuat = this.hitEl.object3D.quaternion;
 
-    bowRotationQuat.copy(handRotationQuat);
+    if (this.rotateHeldObject === true) {
+      bowRotationQuat.copy(handRotationQuat);
 
-    var rotateQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
+      var rotateQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
 
-    bowRotationQuat.multiply(rotateQuat);
+      bowRotationQuat.multiply(rotateQuat);
+    }
 
   },
 
@@ -134,5 +142,12 @@ AFRAME.registerComponent('grab', {
     this.previousPosition = currentPosition;
     this.deltaPosition = deltaPosition;
 
+  },
+
+  onDisableRotation: function() {
+    this.rotateHeldObject = false;
+  },
+  onEnableRotation: function() {
+    this.rotateHeldObject = true;
   }
 });

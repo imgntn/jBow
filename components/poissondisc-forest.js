@@ -45,8 +45,13 @@ AFRAME.registerComponent('poissondisc-forest', {
             tree.setAttribute('position', treePosition);
             this.el.appendChild(tree)
             this.trees.push(tree);
+            this.el.setObject3D('mesh', tree);
         }
 
+    },
+
+    remove: function() {
+        this.el.removeObject3D('mesh');
     },
 
     createSingleTree: function(treeString) {

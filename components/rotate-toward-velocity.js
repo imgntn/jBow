@@ -11,7 +11,7 @@ AFRAME.registerComponent('rotate-toward-velocity', {
         var aimP = new THREE.Vector3();
         var velocity = new THREE.Vector3();
         velocity.copy(body.velocity);
-        aimP.copy(body.position).sub(velocity)
+        aimP.copy(body.position).sub(velocity);
         obj3D.lookAt(aimP);
         body.quaternion.copy(obj3D.quaternion);
     },

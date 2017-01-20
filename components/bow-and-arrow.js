@@ -8,7 +8,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.primaryHand = null;
 
     var entity = document.createElement('a-entity');
-    entity.id="bow";
+    entity.id = "bow";
     entity.setAttribute('obj-model', 'obj: #bow-obj; mtl: #bow-mtl');
     entity.setAttribute('scale', '0.1 0.1 0.1');
     this.el.appendChild(entity);
@@ -18,7 +18,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.shootArrow = this.shootArrow.bind(this);
     this.setPrimaryHand = this.setPrimaryHand.bind(this);
     this.freeHands = this.freeHands.bind(this);
-    
+
     var arrow = document.getElementById('preShotArrow');
     entity.appendChild(arrow);
     this.preShotArrow = arrow;
@@ -34,22 +34,23 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.offsets = {
       bowTop: {
         x: 0,
-        y: 1,
-        z: 0
+        y: 8.5,
+        z:2
       },
       bowBottom: {
         x: 0,
-        y: -1,
-        z: 0
+        y: -8.5,
+        z: 2
       },
       arrowBack: {
         x: 0,
         y: 0,
-        z: -0.095
+        z: 2
       }
     }
 
-    this.bowLine=null;
+    this.bowLine = null;
+    this.createMeshLine();
 
   },
 
@@ -121,8 +122,8 @@ AFRAME.registerComponent('bow-and-arrow', {
     var bowPosition = bow.object3D.getWorldPosition();
 
     var arrow = scene.components.pool__arrow.requestEntity();
-    
-    if(arrow===undefined){
+
+    if (arrow === undefined) {
       return;
     }
 
@@ -206,7 +207,8 @@ AFRAME.registerComponent('bow-and-arrow', {
   hideArrow: function() {
     //if shot is under minimum threshold for force, then just delete the arrow
     this.preShotArrow.setAttribute('visible', false)
-
+    this.offsets.arrowBack.z=2;
+    this.updateMeshLine();
   },
 
   vibrateController: function() {
@@ -264,8 +266,8 @@ AFRAME.registerComponent('bow-and-arrow', {
     // arrow.removeAttribute('rotate-toward-velocity');
     this.playSound('arrow_impact_sound', arrow.getAttribute('position'))
     var scene = document.getElementById('scene');
-   
-      arrow.setAttribute('didCollide', 'no')
+
+    arrow.setAttribute('didCollide', 'no')
     setTimeout(function removeArrow() {
       scene.components.pool__arrow.returnEntity(arrow);
     }, 0)
@@ -279,38 +281,75 @@ AFRAME.registerComponent('bow-and-arrow', {
   },
 
   tick: function() {
-    return
     //need to debounce this because the query selectors cant keep up
     if (this.aiming === true) {
-      this.moveArrowBack();
       this.updateMeshLine();
+      this.moveArrowBack();
+
     }
   },
 
-  updateMeshLine: function() {
+  getBowLinePathString:function(){
+      var topOfBow = new THREE.Vector3().copy(this.offsets.bowTop)
+
+      var bottomOfBow = new THREE.Vector3().copy(this.offsets.bowBottom)
+
+            var backOfArrow = new THREE.Vector3().copy(this.offsets.arrowBack)
+
+          var arrowPosition = this.preShotArrow.getAttribute('position');
+
+
+      var pathString = topOfBow.x + " " + topOfBow.y + " " + topOfBow.z + ", " + backOfArrow.x + " " + backOfArrow.y + " " + backOfArrow.z + ", " + bottomOfBow.x + " " + bottomOfBow.y + " " + bottomOfBow.z;
+      return pathString
+    },
+
+  createMeshLine: function() {
     if (this.bowLine === null) {
-      this.bowLine = document.getElementById('bowLine')
+
+      var bowLine = document.createElement('a-entity');
+      bowLine.id = 'bowLine';
+
+      bowLine.setAttribute('meshline',
+        {
+          lineWidth: '20',
+          path: this.getBowLinePathString(),
+          color: "#E20049"
+        })
+
+      this.bow.append(bowLine);
+      this.bowLine = bowLine;
+      return;
     }
-
-    var topOfBow=this.offsets.bowTop;
-    var backOfArrow=this.offsets.arrowBack;
-    var bottomOfBow=this.offsets.bowBottom;
-
-    // var pathString = topOfBow.x +" "+ topOfBow.y + " "+topOfBow.z + "," + backOfArrow.x +" "+backOfArrow.y +" "+ backOfArrow.z + "," + bottomOfBow.x +" "+ bottomOfBow.y +" "+ bottomOfBow.z;
-    // console.log('pathString,pathString')
-    this.bowLine.setAttribute('meshline', 'path', [
-      topOfBow,
-      backOfArrow,
-      bottomOfBow
-      ]);
 
   },
 
+  updateMeshLine:function(){
+     this.bowLine.setAttribute('meshline',
+        {
+          lineWidth: '20',
+          path: this.getBowLinePathString(),
+          color: "#E20049"
+        })
+
+  },
   moveArrowBack: function() {
     var arrowPosition = this.preShotArrow.getAttribute('position');
     var force = this.getShotForce();
-    arrowPosition.z = -force;
+    arrowPosition.z = force*2;
+    this.offsets.arrowBack.z=1+(force*2);
+    if(this.offsets.arrowBack.z<2){
+      this.offsets.arrowBack.z=2;
+    }
     this.preShotArrow.setAttribute('position', arrowPosition);
+  },
+
+  rotateBowToHandLine: function() {
+    // the rotation of the bow is determined by the line that's drawn between the back hand and front hand
+    // the position of the bow is still determined by the position of the front hand
+    // the position of the back hand is the draw up to a limit
+    // on release it slerps to actual controller rotation
+    //
+    //
   }
 
 });

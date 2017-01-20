@@ -28,12 +28,6 @@ Components used
 
 # todo:
 
-- [x] blog post draft
-- [] incorporate draft feedback
-- [] publish 
-
-bugs:
-
 0.1
 - [x] reduce lag at shot (try a pool, try more specific selectors)
 - [x] when arrows collide, return arrows to pool
@@ -70,6 +64,11 @@ bugs:
 - [] fire arrows
 - [] nightmode
 - [] enemy ai
-- [] tower / terrace / teleport
-- [] balloon spawner
+- [] tower
+- [] teleport
 - [] multiplayer (syncing physics...??? hmm)
+
+blog 
+- [x] blog post draft
+- [] incorporate draft feedback
+- [] publish 
