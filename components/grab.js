@@ -100,7 +100,7 @@ AFRAME.registerComponent('grab', {
       hand: hand
     })
   },
-  rotateHeldObject:true,
+  rotateHeldObject: true,
   tick: function() {
     var hitEl = this.hitEl;
     var position;
@@ -111,7 +111,7 @@ AFRAME.registerComponent('grab', {
     this.updatePositionDelta(hitEl);
 
     position = hitEl.getAttribute('position');
-    
+
     hitEl.setAttribute('position', {
       x: position.x + this.deltaPosition.x,
       y: position.y + this.deltaPosition.y,
@@ -128,6 +128,7 @@ AFRAME.registerComponent('grab', {
 
       bowRotationQuat.multiply(rotateQuat);
     }
+
 
   },
 

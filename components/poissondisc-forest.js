@@ -12,15 +12,15 @@ AFRAME.registerComponent('poissondisc-forest', {
     schema: {
         samplecount: {
             type: 'int',
-            default: 30
+            default: 20
         },
         width: {
             type: 'int',
-            default: 30
+            default: 20
         },
         length: {
             type: 'int',
-            default: 30
+            default: 20
         },
         spacing: {
             type: 'int',
@@ -40,22 +40,39 @@ AFRAME.registerComponent('poissondisc-forest', {
             if (sample === undefined) {
                 return;
             }
-            var tree = this.createSingleTree();
-            var treePosition = new THREE.Vector3(sample[0], 0, sample[1]);
+            var tree = this.createSingleTreeBlock();
+            var treePosition = new THREE.Vector3(sample[0], tree.getAttribute('height') / 2, sample[1]);
+
             tree.setAttribute('position', treePosition);
             this.el.appendChild(tree)
             this.trees.push(tree);
-            this.el.setObject3D('mesh', tree);
+
         }
 
     },
 
-    remove: function() {
-        this.el.removeObject3D('mesh');
+    createSingleTreeBlock: function(treeString) {
+        //our assets for the tree
+        var tree = document.createElement('a-box');
+        var height = 1 + Math.random() * 9;
+        tree.setAttribute('depth', '0.75');
+        tree.setAttribute('width', '0.75');
+        tree.setAttribute('height', height);
+        var which = Math.random();
+        if (which < 0.5) {
+            tree.setAttribute('color', 'green')
+            tree.setAttribute('dynamic-body', '')
+        } else {
+            tree.setAttribute('color', 'white')
+            tree.setAttribute('static-body', '')
+        }
+
+        return tree;
+
     },
 
-    createSingleTree: function(treeString) {
-
+    createSingleTreeObj: function(treeString) {
+        //our assets for the tree
         var treeString = treeString || "obj: #tree-toon-obj; mtl: #tree-toon-mtl";
 
         var tree = document.createElement('a-entity');

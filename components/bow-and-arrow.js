@@ -35,7 +35,7 @@ AFRAME.registerComponent('bow-and-arrow', {
       bowTop: {
         x: 0,
         y: 8.5,
-        z:2
+        z: 2
       },
       bowBottom: {
         x: 0,
@@ -73,7 +73,13 @@ AFRAME.registerComponent('bow-and-arrow', {
   setPrimaryHand: function(evt) {
     this.primaryHand = evt.detail.hand;
     this.primaryHandElement = document.getElementById(evt.detail.hand + 'Hand')
-    console.log('primaryHand is', this.primaryHand)
+    if (this.primaryHand === 'left') {
+      this.secondaryHandElement = document.getElementById('rightHand')
+    }
+    if (this.primaryHand === 'right') {
+      this.secondaryHandElement = document.getElementById('leftHand')
+    }
+
   },
 
   freeHands: function(evt) {
@@ -134,9 +140,6 @@ AFRAME.registerComponent('bow-and-arrow', {
     })
 
     arrow.addEventListener('body-played', function(e) {
-
-      console.log('arrowbody', arrow.body.shapes)
-
       arrow.body.velocity.copy(_t.zeroVec);
       arrow.body.angularVelocity.copy(_t.zeroVec);
       arrow.body.fixedRotation = true;
@@ -153,10 +156,6 @@ AFRAME.registerComponent('bow-and-arrow', {
         new CANNON.Vec3().copy(shotDirection),
         new CANNON.Vec3().copy(this.object3D.getWorldPosition())
       );
-
-      //console.log('shotinfo2',arrow.body)
-
-
     })
 
 
@@ -168,7 +167,7 @@ AFRAME.registerComponent('bow-and-arrow', {
 
     this.playSound('arrow_release_sound', bowPosition)
 
-    this.vibrateController();
+    //this.vibrateController();
     this.hideArrow();
     this.lastShot = Date.now();
     this.aiming = false;
@@ -195,6 +194,8 @@ AFRAME.registerComponent('bow-and-arrow', {
 
     var arrowHand = document.querySelector(handSelector).object3D;
 
+
+
     var matrixWorld = arrowHand.matrixWorld;
     var arrowHandPosition = new THREE.Vector3();
     arrowHandPosition.setFromMatrixPosition(matrixWorld);
@@ -207,7 +208,7 @@ AFRAME.registerComponent('bow-and-arrow', {
   hideArrow: function() {
     //if shot is under minimum threshold for force, then just delete the arrow
     this.preShotArrow.setAttribute('visible', false)
-    this.offsets.arrowBack.z=2;
+    this.offsets.arrowBack.z = 2;
     this.updateMeshLine();
   },
 
@@ -289,19 +290,19 @@ AFRAME.registerComponent('bow-and-arrow', {
     }
   },
 
-  getBowLinePathString:function(){
-      var topOfBow = new THREE.Vector3().copy(this.offsets.bowTop)
+  getBowLinePathString: function() {
+    var topOfBow = new THREE.Vector3().copy(this.offsets.bowTop)
 
-      var bottomOfBow = new THREE.Vector3().copy(this.offsets.bowBottom)
+    var bottomOfBow = new THREE.Vector3().copy(this.offsets.bowBottom)
 
-            var backOfArrow = new THREE.Vector3().copy(this.offsets.arrowBack)
+    var backOfArrow = new THREE.Vector3().copy(this.offsets.arrowBack)
 
-          var arrowPosition = this.preShotArrow.getAttribute('position');
+    var arrowPosition = this.preShotArrow.getAttribute('position');
 
 
-      var pathString = topOfBow.x + " " + topOfBow.y + " " + topOfBow.z + ", " + backOfArrow.x + " " + backOfArrow.y + " " + backOfArrow.z + ", " + bottomOfBow.x + " " + bottomOfBow.y + " " + bottomOfBow.z;
-      return pathString
-    },
+    var pathString = topOfBow.x + " " + topOfBow.y + " " + topOfBow.z + ", " + backOfArrow.x + " " + backOfArrow.y + " " + backOfArrow.z + ", " + bottomOfBow.x + " " + bottomOfBow.y + " " + bottomOfBow.z;
+    return pathString
+  },
 
   createMeshLine: function() {
     if (this.bowLine === null) {
@@ -309,12 +310,11 @@ AFRAME.registerComponent('bow-and-arrow', {
       var bowLine = document.createElement('a-entity');
       bowLine.id = 'bowLine';
 
-      bowLine.setAttribute('meshline',
-        {
-          lineWidth: '20',
-          path: this.getBowLinePathString(),
-          color: "#E20049"
-        })
+      bowLine.setAttribute('meshline', {
+        lineWidth: '20',
+        path: this.getBowLinePathString(),
+        color: "#E20049"
+      })
 
       this.bow.append(bowLine);
       this.bowLine = bowLine;
@@ -323,22 +323,22 @@ AFRAME.registerComponent('bow-and-arrow', {
 
   },
 
-  updateMeshLine:function(){
-     this.bowLine.setAttribute('meshline',
-        {
-          lineWidth: '20',
-          path: this.getBowLinePathString(),
-          color: "#E20049"
-        })
+  updateMeshLine: function() {
+    this.bowLine.setAttribute('meshline', {
+      lineWidth: '20',
+      path: this.getBowLinePathString(),
+      color: "#E20049"
+    })
 
   },
+
   moveArrowBack: function() {
     var arrowPosition = this.preShotArrow.getAttribute('position');
     var force = this.getShotForce();
-    arrowPosition.z = force*2;
-    this.offsets.arrowBack.z=1+(force*2);
-    if(this.offsets.arrowBack.z<2){
-      this.offsets.arrowBack.z=2;
+    arrowPosition.z = force * 2;
+    this.offsets.arrowBack.z = 1 + (force * 2);
+    if (this.offsets.arrowBack.z < 2) {
+      this.offsets.arrowBack.z = 2;
     }
     this.preShotArrow.setAttribute('position', arrowPosition);
   },
@@ -350,6 +350,33 @@ AFRAME.registerComponent('bow-and-arrow', {
     // on release it slerps to actual controller rotation
     //
     //
+
+    if (this.rotateHeldObject === true) {
+      var primaryHand = this.primaryHandElement.object3D;
+      var secondaryHand = this.secondaryHandElement.object3D;
+
+      var handRotationQuat = this.primaryHandElement.object3D.quaternion;
+      var bowRotationQuat = this.hitEl.object3D.quaternion;
+
+      //add the vector from your back to front hand
+      //the copy that quat into the bow rotation
+
+      var lookAtPosition = new THREE.Vector3().copy(frontHand.position).subtract(backHand.position);
+
+      bowRotationQuat.copy(handRotationQuat.looktAt(lookAtPosition));
+      // unity c#
+      //aimbow
+      // transform.rotation = Quaternion.LookRotation(holdControl.transform.position - stringControl.transform.position, holdControl.transform.TransformDirection(Vector3.forward));
+
+      //slerp back
+      //transform.localRotation = Quaternion.Lerp(releaseRotation, baseRotation, (Time.time - fireOffset) * 8);
+
+
+
+    }
+
+
+
   }
 
 });
