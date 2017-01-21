@@ -52,7 +52,7 @@ AFRAME.registerComponent('poissondisc-forest', {
     },
 
     createSingleTreeBlock: function(treeString) {
-        //our assets for the tree
+        //created simple boxes with physics entities
         var tree = document.createElement('a-box');
         var height = 1 + Math.random() * 9;
         tree.setAttribute('depth', '0.75');

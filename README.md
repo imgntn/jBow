@@ -1,8 +1,8 @@
-This project shows how to make a two-handed bow and arrow in webVR.
+This project shows how to make a two-handed bow and arrow in webVR using A-Frame.
 
 ![Alt text](captures/360_a.jpg?raw=true "Early Tests")
 
-You can pick it up using either hand.  Then, take aim and pull the trigger on your back hand.  Releasing the trigger shoots an arrow.  The force with which the arrow travels depends on the distance between your back hand and the bow.
+You can pick it up using either hand.  Then, take aim and pull the trigger on your back hand.  Releasing the trigger shoots an arrow.  The force with which the arrow travels depends on the distance between your back hand and the bow. 
 
 It currently works much better in Firefox Nightly than in Chrome.
 
@@ -10,9 +10,9 @@ I made modifications to the ```grab``` component to communicate with the bow abo
 
 Since I reuse arrows from a pool to improve performance, I also made slight modifications to the physics system in ```a-frame-physics-system``` so that it would emit a 'body-played' when the dynamic body is synced.
 
-My ```rotate-toward-velocity``` component keeps the arrow pointed in the direction of travel.
+The ```rotate-toward-velocity``` component keeps the arrow pointed in the direction of travel.
 
-The ```poissondisc-forest``` component distributes trees around you in a Poisson Disc for somewhat realistic vegetation.  Here I'm using boxes instead of actual tree models so that some of them can be dynamic and soem can be static.
+The ```poissondisc-forest``` component distributes 'trees' around you in an attempt to mimic realistic vegetation distribution.  Here I'm using boxes instead of the default tree model to showcase the physics system.  Some are static and cannot be move, others are dynamic and will topple over when you shoot them.
 
 Models used
 -----------
@@ -49,11 +49,12 @@ Components used
 - [x] poisson disc for tree distribution
 - [x] string animations - meshline to back of arrow 
 - [x] pull arrow back in bow to match force
-- [] remove string from arrow model
+- [x] remove string from arrow model
 - [] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all. followed by a short slerp back to real controller rotation after firing.  ala the lab
-- [] texture the ground plane
+- [] add some mountains
 
 0.3
+
 - [] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
 - [] increase poolsize for sounds to allow them to overlap
 - [] how to better see the arrow during flight -- glow, particle trail?
