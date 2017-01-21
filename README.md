@@ -1,6 +1,6 @@
 This project shows how to make a two-handed bow and arrow in webVR using A-Frame.
 
-![Alt text](captures/360_a.jpg?raw=true "Early Tests")
+![Alt text](captures/360_b.jpg?raw=true "Early Tests")
 
 You can pick it up using either hand.  Then, take aim and pull the trigger on your back hand.  Releasing the trigger shoots an arrow.  The force with which the arrow travels depends on the distance between your back hand and the bow. 
 
