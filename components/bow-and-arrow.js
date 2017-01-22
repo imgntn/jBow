@@ -101,6 +101,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.preShotArrow.setAttribute('visible', '');
     this.playSound('draw_string_sound', bowPosition);
     this.aiming = true;
+    this.enableAimRotation();
   },
 
   shootArrow: function(evt) {
@@ -118,6 +119,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     if (force < this.forceThreshold) {
       this.hideArrow();
       this.aiming = false;
+      this.disableAimRotation();
       return;
     }
 
@@ -171,6 +173,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.hideArrow();
     this.lastShot = Date.now();
     this.aiming = false;
+    this.disableAimRotation();
   },
 
   getShotForce: function() {
@@ -186,15 +189,16 @@ AFRAME.registerComponent('bow-and-arrow', {
     var arrowHandPosition;
     var handSelector;
     if (this.primaryHand === 'left') {
-      handSelector = '#rightHand'
+      handSelector = 'rightHand'
     }
     if (this.primaryHand === 'right') {
-      handSelector = '#leftHand'
+      handSelector = 'leftHand'
     }
 
-    var arrowHand = document.querySelector(handSelector).object3D;
+    var handElement = document.getElementById(handSelector);
+    if(handElement===null){return};
 
-
+    var arrowHand = handElement.object3D;
 
     var matrixWorld = arrowHand.matrixWorld;
     var arrowHandPosition = new THREE.Vector3();
@@ -270,7 +274,7 @@ AFRAME.registerComponent('bow-and-arrow', {
 
 
     setTimeout(function removeArrow() {
-     arrow.setAttribute('didCollide', 'no');
+      arrow.setAttribute('didCollide', 'no');
       scene.components.pool__arrow.returnEntity(arrow);
     }, 0)
 
@@ -287,7 +291,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     if (this.aiming === true) {
       this.updateMeshLine();
       this.moveArrowBack();
-
+      this.rotateBowToHandLine();
     }
   },
 
@@ -340,39 +344,41 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.preShotArrow.setAttribute('position', arrowPosition);
   },
 
+  enableAimRotation: function() {
+    //we want to control the aim rotation
+    //this.primaryHandElement.emit('disableRotation',{})
+  },
+
+  disableAimRotation: function() {
+    //this.primaryHandElement.emit('enableRotation',{})
+  },
+
+  // the rotation of the bow is determined by the line that's drawn between the back hand and front hand
+  // the position of the bow is still determined by the position of the front hand
+  // the position of the back hand is the draw up to a limit
+  // on release it slerps to actual controller rotation
+  // unity c#
+  //aimbow
+  // transform.rotation = Quaternion.LookRotation(holdControl.transform.position - stringControl.transform.position, holdControl.transform.TransformDirection(Vector3.forward));
+  //slerp back
+  //transform.localRotation = Quaternion.Lerp(releaseRotation, baseRotation, (Time.time - fireOffset) * 8);
+
   rotateBowToHandLine: function() {
-    // the rotation of the bow is determined by the line that's drawn between the back hand and front hand
-    // the position of the bow is still determined by the position of the front hand
-    // the position of the back hand is the draw up to a limit
-    // on release it slerps to actual controller rotation
-    //
-    //
+    //not working right now
 
-    if (this.rotateHeldObject === true) {
-      var primaryHand = this.primaryHandElement.object3D;
-      var secondaryHand = this.secondaryHandElement.object3D;
+    var frontHand = this.primaryHandElement.object3D;
+    var backHand = this.secondaryHandElement.object3D;
+    var bow = this.bow.object3D;
 
-      var handRotationQuat = this.primaryHandElement.object3D.quaternion;
-      var bowRotationQuat = this.hitEl.object3D.quaternion;
+    var lookAtPosition = new THREE.Vector3().copy(backHand.position);
+    lookAtPosition.sub(frontHand.position);
+    lookAtPosition.normalize();
 
-      //add the vector from your back to front hand
-      //the copy that quat into the bow rotation
+      var rotateQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
 
-      var lookAtPosition = new THREE.Vector3().copy(frontHand.position).subtract(backHand.position);
-
-      bowRotationQuat.copy(handRotationQuat.looktAt(lookAtPosition));
-      // unity c#
-      //aimbow
-      // transform.rotation = Quaternion.LookRotation(holdControl.transform.position - stringControl.transform.position, holdControl.transform.TransformDirection(Vector3.forward));
-
-      //slerp back
-      //transform.localRotation = Quaternion.Lerp(releaseRotation, baseRotation, (Time.time - fireOffset) * 8);
-
-
-
-    }
-
-
+      this.bow.object3D.quaternion.copy(frontHand.quaternion);
+      this.bow.object3D.quaternion.multiply(rotateQuat);
+      // this.bow.object3D.lookAt(lookAtPosition);
 
   }
 

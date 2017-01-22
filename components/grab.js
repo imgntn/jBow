@@ -14,6 +14,8 @@ AFRAME.registerComponent('grab', {
     this.onGripClose = this.onGripClose.bind(this);
     this.onTriggerDown = this.onTriggerDown.bind(this);
     this.onTriggerUp = this.onTriggerUp.bind(this);
+    this.onDisableRotation = this.onDisableRotation.bind(this);
+    this.onEnableRotation = this.onEnableRotation.bind(this);
   },
 
   play: function() {
@@ -49,14 +51,14 @@ AFRAME.registerComponent('grab', {
 
   onTriggerUp: function(evt) {
 
-    var bow = document.querySelector('#bow')
+    var bow = document.getElementById('bow');
     bow.emit('shootArrow', {
       hand: this.el.getAttribute('hand-controls')
     })
   },
 
   onTriggerDown: function(evt) {
-    var bow = document.querySelector('#bow')
+    var bow = document.getElementById('bow');
     bow.emit('spawnArrow', {
       hand: this.el.getAttribute('hand-controls')
     })
@@ -129,7 +131,6 @@ AFRAME.registerComponent('grab', {
       bowRotationQuat.multiply(rotateQuat);
     }
 
-
   },
 
   updatePositionDelta: function(hitEl) {
@@ -146,9 +147,12 @@ AFRAME.registerComponent('grab', {
   },
 
   onDisableRotation: function() {
+    console.log('GRAB SHOULD NO LONGER ROTATE THE BOW');
     this.rotateHeldObject = false;
   },
+
   onEnableRotation: function() {
+    console.log('GRAB SHOULD ROTATE THE BOW');
     this.rotateHeldObject = true;
   }
 });

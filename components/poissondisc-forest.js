@@ -34,6 +34,8 @@ AFRAME.registerComponent('poissondisc-forest', {
         var treeCount;
         this.trees = [];
 
+        this.centerForest();
+
         for (treeCount = 0; treeCount < this.data.samplecount; treeCount++) {
             //xy position
             var sample = this.sampler();
@@ -49,6 +51,16 @@ AFRAME.registerComponent('poissondisc-forest', {
 
         }
 
+    },
+
+    centerForest: function() {
+
+        var lengthTransform = this.data.length / 2;
+        var widthTransform = this.data.width / 2;
+
+        var position = new THREE.Vector3(-lengthTransform, 0, -widthTransform);
+
+        this.el.setAttribute('position', position);
     },
 
     createSingleTreeBlock: function(treeString) {
