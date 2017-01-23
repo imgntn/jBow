@@ -12,7 +12,6 @@ It currently works much better in Firefox Nightly than in Chrome.  You'll have t
 
 [You can try a live demo here](https://imgntn.github.io/jBow/)
 
-
 ## Models Used
 
 - Bow model from Clara.io https://clara.io/view/96531052-8e7c-45db-992e-9eaa127349a6
@@ -35,18 +34,17 @@ The ```poissondisc-forest``` component distributes 'trees' around you in an atte
 
 ## Interaction Flow 
 
-Listen to event for picking up the bow with primary hand
-Play nocking sound at bow position
-Measure distance between hands (shot force) while aiming
-Move the arrow back in the nock proportional to the shot force
-Draw a line to the back of the arrow
-Detect trigger release from back hand
-Apply impulse force to arrow toward front of bow to shoot arrow
-Play shooting sound at bow position
-Vibrate the controller when we release an arrow
-Rotate the arrow toward its velocity to get a nice arc during flight
-Collision detection to play hit sound at collision position and cleanup
-
+- Listen to event for picking up the bow with primary hand
+- Play nocking sound at bow position
+- Measure distance between hands (shot force) while aiming
+- Move the arrow back in the nock proportional to the shot force
+- Draw a line to the back of the arrow
+- Detect trigger release from back hand
+- Apply impulse force to arrow toward front of bow to shoot arrow
+- Play shooting sound at bow position
+- Vibrate the controller when we release an arrow
+- Rotate the arrow toward its velocity to get a nice arc during flight
+- Collision detection to play hit sound at collision position and cleanup
 
 ## To-Do:
 
@@ -70,10 +68,9 @@ Collision detection to play hit sound at collision position and cleanup
 - [x] string animations - meshline to back of arrow 
 - [x] pull arrow back in bow to match force
 - [x] remove string from arrow model
-- [] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all. followed by a short slerp back to real controller rotation after firing.  ala the lab
 
 0.3
-
+- [] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all. followed by a short slerp back to real controller rotation after firing.  ala the lab
 - [] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
 - [] increase poolsize for sounds to allow them to overlap
 - [] add some mountains
