@@ -1,6 +1,6 @@
 This project shows how to make a two-handed bow and arrow in webVR using A-Frame.
 
-[Read "The Bow and Arrow is Virtual Reality's Hello World"](https://blog.jamesbpollack.com)
+[Read "The Bow and Arrow is Virtual Reality's Hello World"](https://medium.com/@jamesbpollack/the-bow-arrow-is-virtual-realitys-hello-world-b0556faa3ef8)
 
 ![Alt text](captures/cap1.png?raw=true "Early Tests")
 
