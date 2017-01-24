@@ -3,7 +3,12 @@
 /**
  */
 AFRAME.registerComponent('bow-and-arrow', {
-  // schema: {},
+  schema: {
+    lineColor: {
+      type: 'color',
+      default: '#E20049'
+    },
+  },
   init: function() {
     this.primaryHand = null;
 
@@ -196,7 +201,9 @@ AFRAME.registerComponent('bow-and-arrow', {
     }
 
     var handElement = document.getElementById(handSelector);
-    if(handElement===null){return};
+    if (handElement === null) {
+      return
+    };
 
     var arrowHand = handElement.object3D;
 
@@ -316,7 +323,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     bowLine.setAttribute('meshline', {
       lineWidth: '20',
       path: this.getBowLinePathString(),
-      color: "#E20049"
+      color: this.data.lineColor
     })
 
     this.bow.append(bowLine);
@@ -328,7 +335,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.bowLine.setAttribute('meshline', {
       lineWidth: '20',
       path: this.getBowLinePathString(),
-      color: "#E20049"
+      color: this.data.lineColor
     })
 
   },
@@ -374,11 +381,11 @@ AFRAME.registerComponent('bow-and-arrow', {
     lookAtPosition.sub(frontHand.position);
     lookAtPosition.normalize();
 
-      var rotateQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
+    var rotateQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
 
-      this.bow.object3D.quaternion.copy(frontHand.quaternion);
-      this.bow.object3D.quaternion.multiply(rotateQuat);
-      // this.bow.object3D.lookAt(lookAtPosition);
+    this.bow.object3D.quaternion.copy(frontHand.quaternion);
+    this.bow.object3D.quaternion.multiply(rotateQuat);
+    // this.bow.object3D.lookAt(lookAtPosition);
 
   }
 
