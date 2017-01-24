@@ -48,7 +48,7 @@ The ```poissondisc-forest``` component distributes 'trees' around you in an atte
 
 ## To-Do:
 
-0.1
+1.0
 - [x] reduce lag at shot (try a pool, try more specific selectors)
 - [x] when arrows collide, return arrows to pool
 - [x] arrow rotation at shot should be front of bow
@@ -60,7 +60,7 @@ The ```poissondisc-forest``` component distributes 'trees' around you in an atte
 - [x] haptic pulse for shooting arrow (doesnt seem to be supported anywhere yet)
 - [x] extend ground otherwise out of sight arrows might never collide
 
-0.2
+2.0
 - [x] add a cooldown otherwise we run through the whole pool of arrows.
 - [x] once you're reusing an arrow from the pool, it gets double the force every time.  probably because we're reusing the physics body and it isnt fresh. 
 - [x] add some trees at various locations to give some depth 
@@ -70,7 +70,7 @@ The ```poissondisc-forest``` component distributes 'trees' around you in an atte
 - [x] remove string from arrow model
 - [x] add some mountains
 
-0.3
+3.0
 - [] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all. followed by a short slerp back to real controller rotation after firing.  ala the lab
 - [] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
 - [] increase poolsize for sounds to allow them to overlap
@@ -80,7 +80,7 @@ The ```poissondisc-forest``` component distributes 'trees' around you in an atte
 - [] animated targets (and their phyiscs bodies)
 - [] haptic pulse on bow grab (working yet in FF/Chrome?)
 
-0.4
+5.0
 - [] fire arrows
 - [] nightmode
 - [] enemy ai
