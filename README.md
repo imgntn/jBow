@@ -18,9 +18,9 @@ It currently works much better in Firefox Nightly than in Chrome.  You'll have t
 - Arrow model from Clara.io https://clara.io/view/95c6882f-9216-4415-a06b-2e9591ad04b1
 - Tree model from Clara.io https://clara.io/view/6ce48237-f4d4-4852-90f9-8f067fd09b29
 
-## Components Used
+## Components + Modifications
 
-- [grab and aabb-collider](https://github.com/aframevr/aframe/tree/master/examples/showcase/tracked-controls/components)
+- [ground, grab and aabb-collider](https://github.com/aframevr/aframe/tree/master/examples/showcase/tracked-controls/components)
 - [aframe-physics-system](https://github.com/donmccurdy/aframe-physics-system)
 - [aframe-meshline](https://github.com/andreasplesch/aframe-meshline-component)
 
