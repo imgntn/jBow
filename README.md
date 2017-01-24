@@ -1,8 +1,8 @@
 This project shows how to make a two-handed bow and arrow in webVR using A-Frame.
 
-[Read "The Bow and Arrow is Virtual Reality's Hello World"](https://medium.com/@jamesbpollack/the-bow-arrow-is-virtual-realitys-hello-world-b0556faa3ef8)
+[Read "The Bow and Arrow is Virtual Reality's Hello World" on Medium](https://medium.com/@jamesbpollack/the-bow-arrow-is-virtual-realitys-hello-world-b0556faa3ef8)
 
-![Alt text](captures/cap1.png?raw=true "Early Tests")
+![Alt text](captures/cap1.png?raw=true "Taking Aim")
 
 ## General Info
 
@@ -68,17 +68,17 @@ The ```poissondisc-forest``` component distributes 'trees' around you in an atte
 - [x] string animations - meshline to back of arrow 
 - [x] pull arrow back in bow to match force
 - [x] remove string from arrow model
+- [x] add some mountains
 
 0.3
 - [] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all. followed by a short slerp back to real controller rotation after firing.  ala the lab
 - [] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
 - [] increase poolsize for sounds to allow them to overlap
-- [] add some mountains
 - [] how to better see the arrow during flight -- glow, particle trail?
-- [] haptic pulse on bow grab (working yet?)
-- [] visual indicator of target hit.  
 - [] make arrow stick and then add cooldown delay before disappearing them
+- [] visual indicator of target hit.  
 - [] animated targets (and their phyiscs bodies)
+- [] haptic pulse on bow grab (working yet in FF/Chrome?)
 
 0.4
 - [] fire arrows
