@@ -19,7 +19,7 @@
 </head>
 <body>
 
-  <a-scene id="scene" physics="debug:true" vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 6;">
+  <a-scene id="scene" physics vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 6;">
 
   <!-- Asset Management System -->
     <a-assets>
@@ -45,7 +45,7 @@
 
     <!-- Environment -->
     <a-entity id="sky"  geometry="primitive: sphere; radius: 65;" material="shader: skyGradient; colorTop: #353449; colorBottom: #BC483E; side: back"></a-entity>
-    <a-entity ground position="4 0.01 0"></a-entity>
+    <a-entity ground position="4 0.1 5"></a-entity>
     <a-plane color="#614126" static-body position="0 0 0" rotation="-90 0 0"  width="1000" height="1000"></a-plane>
 
     <!-- Lights-->
