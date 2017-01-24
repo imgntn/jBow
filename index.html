@@ -4,14 +4,17 @@
   <meta charset="utf-8">
   <title>jBow</title>
   <meta name="description" content="jBow">
+
   <script src="aframe-master.min.js"></script>
+  <script src="shaders/skyGradient.js"></script>
+  <script src="components/ground.js"></script>
   <script src="components/aabb-collider.js"></script>
   <script src="components/aframe-meshline-component.min.js"></script>
   <script src="components/grab.js"></script>
   <script src="components/bow-and-arrow.js"></script>
   <script src="components/rotate-toward-velocity.js"></script>
   <script src="components/poissondisc-forest.js"></script>
-  <script src="shaders/skyGradient.js"></script>
+
   <script src="aframe-physics-system.js"></script>
 </head>
 <body>
@@ -26,8 +29,6 @@
       <a-asset-item id="arrow-mtl" src="assets/models/low-poly-arrow-obj/low-poly-arrow.mtl"></a-asset-item>
       <a-asset-item id="target-obj" src="assets/models/target/target.obj"></a-asset-item>
       <a-asset-item id="target-mtl" src="assets/models/target/target.mtl"></a-asset-item>
-      <a-asset-item id="tree-toon-obj" src="assets/models/tree-toon-obj/tree-toon.obj"></a-asset-item>
-      <a-asset-item id="tree-toon-mtl" src="assets/models/tree-toon-obj/tree-toon.mtl"></a-asset-item>
       <a-mixin id="arrowpool" dynamic-body="shape:box" scale="0.005 0.005 0.005" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"></a-mixin>
       <audio id="arrow_release" src="assets/sounds/arrow_release.mp3">
       <audio id="arrow_impact" src="assets/sounds/arrow_impact.mp3">
@@ -44,7 +45,7 @@
 
     <!-- Environment -->
     <a-entity id="sky"  geometry="primitive: sphere; radius: 65;" material="shader: skyGradient; colorTop: #353449; colorBottom: #BC483E; side: back"></a-entity>
-
+    <a-entity ground position="4 0.01 0"></a-entity>
     <a-plane color="#614126" static-body position="0 0 0" rotation="-90 0 0"  width="1000" height="1000"></a-plane>
 
     <!-- Lights-->
@@ -54,7 +55,8 @@
     <a-entity light="type: point; color: #f4f4f4; intensity: 0.6; distance: 0" position="-8 30 -18"></a-entity>
 
     <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.4;" position="-8 10 -18"></a-entity>
-
+<!--         <a-entity light="type: ambient; color: #ffffff; intensity: 0.8;" position="-8 20 -10"></a-entity>
+ -->
     <!-- Bow and Arrow -->
 
     <a-entity id="preShotArrow" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"position="0 0 0 " scale="0.05 0.05 0.05" visible="false"></a-entity>

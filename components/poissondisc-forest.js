@@ -75,7 +75,7 @@ AFRAME.registerComponent('poissondisc-forest', {
             tree.setAttribute('color', 'green')
             tree.setAttribute('dynamic-body', '')
         } else {
-            tree.setAttribute('color', 'white')
+            tree.setAttribute('color', 'grey')
             tree.setAttribute('static-body', '')
         }
 
