@@ -7,7 +7,7 @@
 
   <script src="aframe-v0.5.0.min.js"></script>
 
-  <script src="https://rawgit.com/dmarcos/aframe-motion-capture-components/f77d55918cb850e4428f7585fccc4980deeed9bb/dist/aframe-motion-capture-components.min.js"></script>
+  <script src="components/aframe-motion-capture-components.v0.1.5.min.js"></script>
 
   <script src="shaders/skyGradient.js"></script>
   <script src="components/ground.js"></script>
@@ -22,7 +22,7 @@
 </head>
 <body>
 
-  <a-scene id="scene" avatar-recorder physics vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 6;">
+  <a-scene id="scene" avatar-replayer="autoPlay: true; loop: true;" physics vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 6;">
 
   <!-- Asset Management System -->
     <a-assets>
