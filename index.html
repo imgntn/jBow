@@ -5,7 +5,10 @@
   <title>jBow</title>
   <meta name="description" content="jBow">
 
-  <script src="aframe-master.min.js"></script>
+  <script src="aframe-v0.5.0.min.js"></script>
+
+  <script src="components/aframe-motion-capture-components.v0.1.5.min.js"></script>
+
   <script src="shaders/skyGradient.js"></script>
   <script src="components/ground.js"></script>
   <script src="components/aabb-collider.js"></script>
@@ -15,11 +18,11 @@
   <script src="components/rotate-toward-velocity.js"></script>
   <script src="components/poissondisc-forest.js"></script>
 
-  <script src="aframe-physics-system.js"></script>
+  <script src="aframe-physics-system.v1.4.0.js"></script>
 </head>
 <body>
 
-  <a-scene id="scene" physics vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 6;">
+  <a-scene id="scene" avatar-recorder physics vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 6;">
 
   <!-- Asset Management System -->
     <a-assets>
