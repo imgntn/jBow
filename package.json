@@ -1,0 +1,33 @@
+{
+  "name": "jbow",
+  "version": "2.0.0",
+  "description": "A-Frame Bow and arrow demo",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run serve-http",
+    "serve-http": "node node_modules/.bin/http-server ./ -p 3000 -o --gzip"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imgntn/jBow.git"
+  },
+  "keywords": [
+    "a-frame",
+    "bow",
+    "arrow",
+    "hand",
+    "controls",
+    "tracking",
+    "webvr"
+  ],
+  "author": "James B. Pollack",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/imgntn/jBow/issues"
+  },
+  "homepage": "https://github.com/imgntn/jBow#readme",
+  "devDependencies": {
+    "http-server": "^0.10.0"
+  }
+}
