@@ -46,6 +46,12 @@ The ```poissondisc-forest``` component distributes 'trees' around you in an atte
 - Rotate the arrow toward its velocity to get a nice arc during flight
 - Collision detection to play hit sound at collision position and cleanup
 
+## Avatar Motion Capture Recording Support
+
+To speed development, you'll want to make use of avatar motion capture recordings by appending the recording to the url.  Support was added in 2.1 by @Hazardus.
+
+You can see it in action at: https://hazardu5.github.io/jBow/?avatar-recording=recording-jbow.json
+
 ## To-Do:
 
 1.0
@@ -69,6 +75,9 @@ The ```poissondisc-forest``` component distributes 'trees' around you in an atte
 - [x] pull arrow back in bow to match force
 - [x] remove string from arrow model
 - [x] add some mountains
+
+2.1
+[x] motion capture recording support by @Hazardu5
 
 3.0
 - [] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all. followed by a short slerp back to real controller rotation after firing.  ala the lab
