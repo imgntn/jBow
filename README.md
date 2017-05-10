@@ -10,7 +10,7 @@ You can pick up the bow using either hand.  Then, pull the trigger on your back 
 
 It currently works much better in Firefox Nightly than in Chrome.  You'll have to download a [webVR capable browser](https://webvr.info/)
 
-[You can try a live demo here](https://imgntn.github.io/jBow/) | [Motion Capture Demp](https://hazardu5.github.io/jBow/?avatar-recording=recording-jbow.json)
+[You can try a live demo here](https://imgntn.github.io/jBow/) | [Motion Capture Demo](https://hazardu5.github.io/jBow/?avatar-recording=recording-jbow.json)
 
 ## Models Used
 
