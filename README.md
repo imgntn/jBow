@@ -50,7 +50,7 @@ The ```poissondisc-forest``` component distributes 'trees' around you in an atte
 
 To speed development, you'll want to make use of avatar motion capture recordings by appending the recording to the url.  Support was added in 2.1 by @Hazardus.
 
-You can see it in action at: https://hazardu5.github.io/jBow/?avatar-recording=recording-jbow.json
+You can see it in action at: https://imgntn.github.io/jBow/?avatar-recording=recording-jbow.json
 
 ## To-Do:
 
