@@ -80,19 +80,19 @@ You can see it in action at: https://imgntn.github.io/jBow/?avatar-recording=rec
 [x] motion capture recording support by @Hazardu5
 
 3.0
-- [] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all. followed by a short slerp back to real controller rotation after firing.  ala the lab
-- [] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
-- [] increase poolsize for sounds to allow them to overlap
-- [] how to better see the arrow during flight -- glow, particle trail?
+- [x] after pickup the rotation of the bow should be controlled by the line between the hands, not the controller rotation at all. followed by a short slerp back to real controller rotation after firing.  ala the lab
+- [x] arrow is not hitting 'static-body' target obj.  does hit primitive box, so its not a lack of CCD (continuous collision detection)
+- [x] increase poolsize for sounds to allow them to overlap
+- [x] how to better see the arrow during flight -- glow, particle trail?
 - [] make arrow stick and then add cooldown delay before disappearing them
-- [] visual indicator of target hit.  
+- [x] visual indicator of target hit.
 - [] animated targets (and their phyiscs bodies)
 - [] haptic pulse on bow grab (working yet in FF/Chrome?)
 
 5.0
-- [] fire arrows
-- [] nightmode
+- [x] fire arrows
+- [x] nightmode
 - [] enemy ai
 - [] tower
-- [] teleport
+- [x] teleport
 - [] multiplayer (syncing physics...??? hmm)
