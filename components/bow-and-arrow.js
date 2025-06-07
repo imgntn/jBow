@@ -171,6 +171,10 @@ AFRAME.registerComponent('bow-and-arrow', {
     // scene.object3D.add(arrowHelper)
 
     arrow.play();
+    arrow.setAttribute('arrow-trail', '');
+    if (scene.components['game-features'] && scene.components['game-features'].fire) {
+      arrow.setAttribute('fire-arrow', '');
+    }
 
     this.playSound('arrow_release_sound', bowPosition)
 
@@ -279,7 +283,16 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.playSound('arrow_impact_sound', arrow.getAttribute('position'))
     var scene = document.getElementById('scene');
 
+    // visual effect where arrow hit
+    var effect = document.createElement('a-entity');
+    effect.setAttribute('position', arrow.getAttribute('position'));
+    effect.setAttribute('geometry', 'primitive: sphere; radius: 0.1');
+    effect.setAttribute('material', 'color: yellow; emissive: yellow;');
+    effect.setAttribute('hit-effect', '');
+    scene.appendChild(effect);
 
+    arrow.removeAttribute('arrow-trail');
+    arrow.removeAttribute('fire-arrow');
     setTimeout(function removeArrow() {
       arrow.setAttribute('didCollide', 'no');
       scene.components.pool__arrow.returnEntity(arrow);
@@ -371,22 +384,21 @@ AFRAME.registerComponent('bow-and-arrow', {
   //transform.localRotation = Quaternion.Lerp(releaseRotation, baseRotation, (Time.time - fireOffset) * 8);
 
   rotateBowToHandLine: function() {
-    //not working right now
-
     var frontHand = this.primaryHandElement.object3D;
     var backHand = this.secondaryHandElement.object3D;
-    var bow = this.bow.object3D;
+    if (!frontHand || !backHand) { return; }
 
-    var lookAtPosition = new THREE.Vector3().copy(backHand.position);
-    lookAtPosition.sub(frontHand.position);
-    lookAtPosition.normalize();
+    var frontPos = new THREE.Vector3();
+    var backPos = new THREE.Vector3();
+    frontHand.getWorldPosition(frontPos);
+    backHand.getWorldPosition(backPos);
 
+    var matrix = new THREE.Matrix4();
+    matrix.lookAt(frontPos, backPos, new THREE.Vector3(0, 1, 0));
+    var quat = new THREE.Quaternion().setFromRotationMatrix(matrix);
     var rotateQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
-
-    this.bow.object3D.quaternion.copy(frontHand.quaternion);
-    this.bow.object3D.quaternion.multiply(rotateQuat);
-    // this.bow.object3D.lookAt(lookAtPosition);
-
+    quat.multiply(rotateQuat);
+    this.bow.object3D.quaternion.copy(quat);
   }
 
 });

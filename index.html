@@ -17,12 +17,16 @@
   <script src="components/bow-and-arrow.js"></script>
   <script src="components/rotate-toward-velocity.js"></script>
   <script src="components/poissondisc-forest.js"></script>
+  <script src="components/arrow-trail.js"></script>
+  <script src="components/fire-arrow.js"></script>
+  <script src="components/hit-effect.js"></script>
+  <script src="components/game-features.js"></script>
 
   <script src="aframe-physics-system.v4.0.2.js"></script>
 </head>
 <body>
 
-  <a-scene id="scene" avatar-replayer="autoPlay: true; loop: true;" physics vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 6;">
+  <a-scene id="scene" avatar-replayer="autoPlay: true; loop: true;" physics vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 6;" game-features>
 
   <!-- Asset Management System -->
     <a-assets>
@@ -39,9 +43,9 @@
     </a-assets>
 
     <!-- Sounds -->
-    <a-sound id="arrow_release_sound" src="#arrow_release"  poolsize="4"></a-sound>
-    <a-sound id="arrow_impact_sound"  src="#arrow_impact" poolsize="4"></a-sound>
-    <a-sound id="draw_string_sound"  src="#draw_string" poolsize="4"></a-sound>
+    <a-sound id="arrow_release_sound" src="#arrow_release"  poolsize="6"></a-sound>
+    <a-sound id="arrow_impact_sound"  src="#arrow_impact" poolsize="6"></a-sound>
+    <a-sound id="draw_string_sound"  src="#draw_string" poolsize="6"></a-sound>
     
     <!-- Camera -->
     <a-entity camera look-controls></a-entity>
@@ -72,9 +76,9 @@
 
      <!-- Targets-->
 
-    <a-entity class="target"  static-body scale="10 10 10" rotation="0 90 0" position = "0 2 -4" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
-    <a-entity class="target"  static-body scale="10 10 10" rotation="0 90 0" position = "-2 2 -4" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
-    <a-entity class="target"  static-body scale="10 10 10" rotation="0 90 0" position = "2 2 -4" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
+    <a-entity class="target"  static-body="shape: box" scale="10 10 10" rotation="0 90 0" position = "0 2 -4" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
+    <a-entity class="target"  static-body="shape: box" scale="10 10 10" rotation="0 90 0" position = "-2 2 -4" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
+    <a-entity class="target"  static-body="shape: box" scale="10 10 10" rotation="0 90 0" position = "2 2 -4" obj-model="obj: #target-obj; mtl: #target-mtl"></a-entity>
 
     <a-entity id="forest" poissondisc-forest></a-entity>
 
