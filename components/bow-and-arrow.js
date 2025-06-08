@@ -32,6 +32,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.shotMultiplier = 85;
     this.cooldown = 500;
     this.lastShot = Date.now();
+    this.arrowStickTime = 1000;
 
     this.zeroVec = new THREE.Vector3(0, 0, 0);
     this.zeroQuat = new THREE.Quaternion(0, 0, 0, 1);
@@ -171,6 +172,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     // scene.object3D.add(arrowHelper)
 
     arrow.play();
+    arrow.setAttribute('material', 'color: #FFD700; emissive: #FF4500');
 
     this.playSound('arrow_release_sound', bowPosition)
 
@@ -279,11 +281,16 @@ AFRAME.registerComponent('bow-and-arrow', {
     this.playSound('arrow_impact_sound', arrow.getAttribute('position'))
     var scene = document.getElementById('scene');
 
+    if (e.detail && e.detail.body && e.detail.body.el) {
+      e.detail.body.el.emit('arrow-hit');
+    }
 
+    var stickTime = this.arrowStickTime;
     setTimeout(function removeArrow() {
       arrow.setAttribute('didCollide', 'no');
+      arrow.removeAttribute('material');
       scene.components.pool__arrow.returnEntity(arrow);
-    }, 0)
+    }, stickTime)
 
     //console.log('Arrow has collided with body #' + e.detail.body.id);
 
