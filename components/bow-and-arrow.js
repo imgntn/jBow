@@ -77,6 +77,7 @@ AFRAME.registerComponent('bow-and-arrow', {
   },
 
   setPrimaryHand: function(evt) {
+    this.vibrateController();
     this.primaryHand = evt.detail.hand;
     this.primaryHandElement = document.getElementById(evt.detail.hand + 'Hand')
     if (this.primaryHand === 'left') {
