@@ -86,12 +86,12 @@ You can see it in action at: https://imgntn.github.io/jBow/?avatar-recording=rec
 - [x] how to better see the arrow during flight -- glow, particle trail?
 - [x] make arrow stick and then add cooldown delay before disappearing them
 - [x] visual indicator of target hit.
-- [] animated targets (and their phyiscs bodies)
-- [] haptic pulse on bow grab (working yet in FF/Chrome?)
+- [x] animated targets (and their phyiscs bodies)
+- [x] haptic pulse on bow grab (working yet in FF/Chrome?)
 
 5.0
 - [] fire arrows
-- [] nightmode
+- [x] nightmode
 - [] enemy ai
 - [] tower
 - [] teleport
