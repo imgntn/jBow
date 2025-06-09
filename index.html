@@ -25,6 +25,21 @@
 </head>
 <body>
 
+  <style>
+    #hud {
+      position: absolute;
+      width: 100%;
+      bottom: 20px;
+      text-align: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      z-index: 9999;
+      text-shadow: 1px 1px 2px #000;
+    }
+  </style>
+
+  <div id="hud">Use triggers to shoot arrows. Press 'N' for night mode.</div>
+
   <a-scene id="scene" avatar-replayer="autoPlay: true; loop: true;" physics vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 6;" nightmode-toggle>
 
   <!-- Asset Management System -->
@@ -47,7 +62,9 @@
     <a-sound id="draw_string_sound"  src="#draw_string" poolsize="8"></a-sound>
     
     <!-- Camera -->
-    <a-entity camera look-controls></a-entity>
+    <a-entity camera look-controls>
+      <a-entity id="crosshair" geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.003" material="color: white; shader: flat" position="0 0 -0.5"></a-entity>
+    </a-entity>
 
     <!-- Environment -->
     <a-entity id="sky"  geometry="primitive: sphere; radius: 65;" material="shader: skyGradient; colorTop: #353449; colorBottom: #BC483E; side: back"></a-entity>
