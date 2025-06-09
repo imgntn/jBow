@@ -36,9 +36,9 @@
       <a-asset-item id="target-obj" src="assets/models/target/target.obj"></a-asset-item>
       <a-asset-item id="target-mtl" src="assets/models/target/target.mtl"></a-asset-item>
       <a-mixin id="arrowpool" dynamic-body="shape:box" scale="0.005 0.005 0.005" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"></a-mixin>
-      <audio id="arrow_release" src="assets/sounds/arrow_release.mp3">
-      <audio id="arrow_impact" src="assets/sounds/arrow_impact.mp3">
-      <audio id="draw_string" src="assets/sounds/draw_string.mp3" >
+      <audio id="arrow_release" src="assets/sounds/arrow_release.mp3"></audio>
+      <audio id="arrow_impact" src="assets/sounds/arrow_impact.mp3"></audio>
+      <audio id="draw_string" src="assets/sounds/draw_string.mp3"></audio>
     </a-assets>
 
     <!-- Sounds -->
@@ -64,7 +64,7 @@
 
     <!-- Bow and Arrow -->
 
-    <a-entity id="preShotArrow" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"position="0 0 0 " scale="0.05 0.05 0.05" visible="false"></a-entity>
+    <a-entity id="preShotArrow" obj-model="obj: #arrow-obj; mtl: #arrow-mtl" position="0 0 0" scale="0.05 0.05 0.05" visible="false"></a-entity>
 
     <a-entity id="bowContainer" bow-and-arrow position="-0.5 1 -0.5"></a-entity>
     
