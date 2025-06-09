@@ -308,6 +308,16 @@ AFRAME.registerComponent('bow-and-arrow', {
       this.moveArrowBack();
       this.rotateBowToHandLine();
     }
+
+    if (this.slerp) {
+      var t = (Date.now() - this.slerp.start) / this.slerp.duration;
+      if (t >= 1) {
+        this.bow.object3D.quaternion.copy(this.slerp.to);
+        this.slerp = null;
+      } else {
+        THREE.Quaternion.slerp(this.slerp.from, this.slerp.to, this.bow.object3D.quaternion, t);
+      }
+    }
   },
 
   getBowLinePathString: function() {
@@ -360,12 +370,27 @@ AFRAME.registerComponent('bow-and-arrow', {
   },
 
   enableAimRotation: function() {
-    //we want to control the aim rotation
-    //this.primaryHandElement.emit('disableRotation',{})
+    // Disable bow rotation from the grab component so we can manually control it.
+    if (this.primaryHandElement) {
+      this.primaryHandElement.emit('disableRotation', {});
+    }
+    this.slerp = null;
   },
 
   disableAimRotation: function() {
-    //this.primaryHandElement.emit('enableRotation',{})
+    // Re-enable controller rotation and smoothly return to it.
+    if (this.primaryHandElement) {
+      this.primaryHandElement.emit('enableRotation', {});
+    }
+    var targetQuat = this.primaryHandElement.object3D.quaternion.clone();
+    var rotateQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
+    targetQuat.multiply(rotateQuat);
+    this.slerp = {
+      start: Date.now(),
+      duration: 200,
+      from: this.bow.object3D.quaternion.clone(),
+      to: targetQuat
+    };
   },
 
   // the rotation of the bow is determined by the line that's drawn between the back hand and front hand
@@ -379,21 +404,22 @@ AFRAME.registerComponent('bow-and-arrow', {
   //transform.localRotation = Quaternion.Lerp(releaseRotation, baseRotation, (Time.time - fireOffset) * 8);
 
   rotateBowToHandLine: function() {
-    //not working right now
+    if (!this.primaryHandElement || !this.secondaryHandElement) { return; }
 
-    var frontHand = this.primaryHandElement.object3D;
-    var backHand = this.secondaryHandElement.object3D;
-    var bow = this.bow.object3D;
+    var frontPos = new THREE.Vector3();
+    var backPos = new THREE.Vector3();
+    this.primaryHandElement.object3D.getWorldPosition(frontPos);
+    this.secondaryHandElement.object3D.getWorldPosition(backPos);
 
-    var lookAtPosition = new THREE.Vector3().copy(backHand.position);
-    lookAtPosition.sub(frontHand.position);
-    lookAtPosition.normalize();
+    var up = new THREE.Vector3(0, 1, 0);
+    var m = new THREE.Matrix4().lookAt(frontPos, backPos, up);
+    var quat = new THREE.Quaternion().setFromRotationMatrix(m);
 
     var rotateQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
+    quat.multiply(rotateQuat);
 
-    this.bow.object3D.quaternion.copy(frontHand.quaternion);
-    this.bow.object3D.quaternion.multiply(rotateQuat);
-    // this.bow.object3D.lookAt(lookAtPosition);
+    this.bow.object3D.quaternion.copy(quat);
+  }
 
   }
 
