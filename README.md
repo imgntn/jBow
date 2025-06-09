@@ -1,4 +1,6 @@
-This project shows how to make a two-handed bow and arrow in webVR using A-Frame.
+This project shows how to make a two-handed bow and arrow in WebVR using A-Frame.
+The demo pulls A-Frame and supporting components from their CDNs so you always
+get the latest version when you load the page.
 
 [Read "The Bow and Arrow is Virtual Reality's Hello World" on Medium](https://medium.com/@jamesbpollack/the-bow-arrow-is-virtual-realitys-hello-world-b0556faa3ef8)
 
@@ -11,6 +13,22 @@ You can pick up the bow using either hand.  Then, pull the trigger on your back 
 It currently works much better in Firefox Nightly than in Chrome.  You'll have to download a [webVR capable browser](https://webvr.info/)
 
 [You can try a live demo here](https://imgntn.github.io/jBow/) | [Motion Capture Demo](https://hazardu5.github.io/jBow/?avatar-recording=recording-jbow.json)
+
+## Running Locally
+
+1. Install dependencies
+
+```bash
+npm install
+```
+
+2. Start a local server
+
+```bash
+npm start
+```
+
+This serves `index.html` using `http-server` on <http://localhost:3000>.
 
 ## Models Used
 
