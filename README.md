@@ -94,5 +94,5 @@ You can see it in action at: https://imgntn.github.io/jBow/?avatar-recording=rec
 - [x] nightmode
 - [] enemy ai
 - [] tower
-- [] teleport
+ - [x] teleport
 - [] multiplayer (syncing physics...??? hmm)

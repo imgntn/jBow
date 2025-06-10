@@ -20,6 +20,7 @@
   <script src="components/hit-feedback.js"></script>
   <script src="components/animated-target.js"></script>
   <script src="components/nightmode-toggle.js"></script>
+  <script src="components/teleport.js"></script>
 
   <script src="aframe-physics-system.v1.4.0.js"></script>
 </head>
@@ -62,7 +63,7 @@
     <a-sound id="draw_string_sound"  src="#draw_string" poolsize="8"></a-sound>
     
     <!-- Camera -->
-    <a-entity camera look-controls>
+    <a-entity camera look-controls teleport>
       <a-entity id="crosshair" geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.003" material="color: white; shader: flat" position="0 0 -0.5"></a-entity>
     </a-entity>
 
