@@ -6,7 +6,8 @@ This project shows how to make a two-handed bow and arrow in webVR using A-Frame
 
 ## General Info
 
-You can pick up the bow using either hand.  Then, pull the trigger on your back hand to take aim.  Releasing the trigger shoots an arrow.  The force with which the arrow travels depends on the distance between your back hand and the bow. 
+You can pick up the bow using either hand.  Then, pull the trigger on your back hand to take aim.  Releasing the trigger shoots an arrow.  The force with which the arrow travels depends on the distance between your back hand and the bow.
+You can also teleport around the scene using the trackpad on your controller. Point your controller at the ground and click the trackpad to move.
 
 It currently works much better in Firefox Nightly than in Chrome.  You'll have to download a [webVR capable browser](https://webvr.info/)
 
@@ -94,5 +95,5 @@ You can see it in action at: https://imgntn.github.io/jBow/?avatar-recording=rec
 - [x] nightmode
 - [] enemy ai
 - [] tower
-- [] teleport
+- [x] teleport
 - [] multiplayer (syncing physics...??? hmm)
